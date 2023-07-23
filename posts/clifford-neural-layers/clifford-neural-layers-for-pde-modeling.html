@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2023-07-31">
+<meta name="description" content="Summary of the paper ‘Clifford Neural Layers for PDE Modeling’ published at ICLR 2023">
+
+<title>Erik Scheurer - Clifford Neural Layers for PDE Modeling</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Erik Scheurer</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../posts.html" rel="" target="">
+ <span class="menu-text">Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">About Me</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/erikscheurer" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Clifford Neural Layers for PDE Modeling</h1>
+                  <div>
+        <div class="description">
+          Summary of the paper ‘Clifford Neural Layers for PDE Modeling’ published at ICLR 2023
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">Clifford Neural Networks</div>
+                <div class="quarto-category">PDE Modeling</div>
+                <div class="quarto-category">Deep Learning</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">July 31, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#what-is-missing-from-current-pde-modeling-methods" id="toc-what-is-missing-from-current-pde-modeling-methods" class="nav-link" data-scroll-target="#what-is-missing-from-current-pde-modeling-methods">What is missing from current PDE modeling methods?</a></li>
+  <li><a href="#clifford-algebras" id="toc-clifford-algebras" class="nav-link" data-scroll-target="#clifford-algebras">Clifford Algebras</a>
+  <ul class="collapse">
+  <li><a href="#what-is-a-clifford-algebra" id="toc-what-is-a-clifford-algebra" class="nav-link" data-scroll-target="#what-is-a-clifford-algebra">What is a Clifford Algebra?</a></li>
+  <li><a href="#geometric-primitives" id="toc-geometric-primitives" class="nav-link" data-scroll-target="#geometric-primitives">Geometric Primitives</a></li>
+  <li><a href="#geometric-product" id="toc-geometric-product" class="nav-link" data-scroll-target="#geometric-product">Geometric Product</a></li>
+  <li><a href="#pseudoscalars" id="toc-pseudoscalars" class="nav-link" data-scroll-target="#pseudoscalars">Pseudoscalars</a></li>
+  <li><a href="#summary-of-clifford-algebra" id="toc-summary-of-clifford-algebra" class="nav-link" data-scroll-target="#summary-of-clifford-algebra">Summary of Clifford Algebra</a></li>
+  </ul></li>
+  <li><a href="#fourier-neural-operators" id="toc-fourier-neural-operators" class="nav-link" data-scroll-target="#fourier-neural-operators">Fourier Neural Operators</a>
+  <ul class="collapse">
+  <li><a href="#neural-operators" id="toc-neural-operators" class="nav-link" data-scroll-target="#neural-operators">Neural Operators</a></li>
+  <li><a href="#fourier-neural-operators-1" id="toc-fourier-neural-operators-1" class="nav-link" data-scroll-target="#fourier-neural-operators-1">Fourier Neural operators</a></li>
+  </ul></li>
+  <li><a href="#clifford-neural-layers" id="toc-clifford-neural-layers" class="nav-link" data-scroll-target="#clifford-neural-layers">Clifford Neural Layers</a>
+  <ul class="collapse">
+  <li><a href="#clifford-cnn-layers" id="toc-clifford-cnn-layers" class="nav-link" data-scroll-target="#clifford-cnn-layers">Clifford CNN layers</a></li>
+  <li><a href="#rotational-clifford-cnn-layers" id="toc-rotational-clifford-cnn-layers" class="nav-link" data-scroll-target="#rotational-clifford-cnn-layers">Rotational Clifford CNN layers</a></li>
+  <li><a href="#clifford-fourier-layers" id="toc-clifford-fourier-layers" class="nav-link" data-scroll-target="#clifford-fourier-layers">Clifford Fourier Layers</a></li>
+  </ul></li>
+  <li><a href="#applications" id="toc-applications" class="nav-link" data-scroll-target="#applications">Applications</a>
+  <ul class="collapse">
+  <li><a href="#d-incompressible-navier-stokes" id="toc-d-incompressible-navier-stokes" class="nav-link" data-scroll-target="#d-incompressible-navier-stokes">2D Incompressible Navier Stokes</a></li>
+  <li><a href="#shallow-water-equations-for-weather-prediction" id="toc-shallow-water-equations-for-weather-prediction" class="nav-link" data-scroll-target="#shallow-water-equations-for-weather-prediction">Shallow Water Equations for Weather Prediction</a></li>
+  <li><a href="#maxwell-equations-for-electromagnetism" id="toc-maxwell-equations-for-electromagnetism" class="nav-link" data-scroll-target="#maxwell-equations-for-electromagnetism">Maxwell Equations for Electromagnetism</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">Limitations</a></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Welcome to my blog post summarizing and explaining the paper <em>‘Clifford Neural Layers for PDE Modeling’</em> published at <a href="https://iclr.cc/virtual/2023/poster/11825">ICLR 2023</a>. Brandstetter <em>et al.</em> introduce new types of neural network layers based on the mathematical concept of Clifford algebras. These layers are able to model Partial Differential Equations (PDEs) better than current variants. As a student of Simulation Technology, I am very interested in the interplay of deep learning and numerical methods. This paper is a great example of how mathematical concepts can be used to improve deep learning methods by infusing knowledge about the underlying physics.</p>
+<p>This post is also based on a <a href="https://www.youtube.com/watch?v=VXziLgMIWf8">talk by the author</a> as well as <a href="https://www.youtube.com/watch?v=60z_hpEAtD8">this</a> introduction to Clifford algebras.</p>
+</section>
+<section id="what-is-missing-from-current-pde-modeling-methods" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-missing-from-current-pde-modeling-methods">What is missing from current PDE modeling methods?</h2>
+<blockquote class="blockquote">
+<p>TLDR: Current methods are either slow or do not take into account the physical relation between different components and inputs</p>
+</blockquote>
+<p>To underline the motivation for the paper, we will first introduce the <em>Navier Stokes Equations</em>. These equations are used to model fluid flow and are a set of coupled <em>Partial Differential Equations</em> (PDEs).</p>
+<p><span class="math display">\[
+  \frac{\partial v}{\partial t} = -\underbrace{v\cdot \nabla v}_\text{convection} + \underbrace{\mu \nabla^2v}_\text{viscosity}-\underbrace{\nabla p}_\text{internal pressure} + \underbrace{f}_\text{external force},\quad \underbrace{\nabla \cdot v = 0}_\text{incompressibility constraint}
+\]</span></p>
+<p>We have a vector field <span class="math inline">\(v\)</span>, a scalar field <span class="math inline">\(p\)</span> and a viscosity constant <span class="math inline">\(\mu\)</span>. To model these kinds of PDEs, numerical methods such as the <em>forward Euler scheme</em> can be applied:</p>
+<p><span class="math display">\[
+  v^{n+1} = v^n + \Delta t \left(-v^n \cdot \nabla v^n + \mu \nabla^2v^n - \nabla p^n + f^n\right)
+\]</span></p>
+<p>A finite difference approach is used to calculate the diffusion and convection parts of the equation and then take one time step with explicit euler. These numerical methods are well understood and arbitrarily accurate. Their pitfall, however, is the calcuation speed. For critical applications such as flood forecast or hurricane modelling it is advantageous to have a prediction as fast as possible to take early action. Recalculating the entire simulation for every new input of the ever changing weather conditions is not feasible.</p>
+<p>To alleviate the computation time, researchers became interested in <em>neural PDE surrogates</em>. The idea is to use deep learing techniques to train a Neural Network (NN) to solve the PDE for a fast inference time. Such methods are for example the <a href="https://www.sciencedirect.com/science/article/abs/pii/S0021999118307125">PINN</a> and <a href="https://arxiv.org/abs/2003.03485">neural operators</a>. But these methods also come with their downsides. PINNs are trained for one specific grid and specific boundary conditions suffering from a similar problem as finite difference schemes for many applications, while neural operators do not include information about the PDE itself. Neural operators only use data to encode the underlying physics disregarding the well researched physical models.</p>
+<p>This paper improves on the previous methods by introducing a new NN layer that can differentiate between scalar, vector and bivector fields. In traditional NNs, a 2D vector field is interpreted as two scalar fields neglecting the strong connection between the two. For example for the Maxwell equations, the classical form has electric and magnetic fields both as vectors. Reformulating this in the language of Clifford algebra we get closer to the true physical form, defining the magnetic field as a bivector field aka. a rotation.</p>
+<p><span class="math display">\[
+  F = E + iB
+\]</span></p>
+<p>This <span class="math inline">\(F\)</span> is now a multivector describing the electromagnetic field. Classical methods do not have an expression for this multivector. As the new Clifford layers can calculate with the new multivectors, they are able to infuse the knowledge about the underlying physics into the NN.</p>
+<p>If you are not familiar with Clifford algebras, this might sound a bit abstract but the next section will hopefully give a bit of an intuitive understanding of the concepts.</p>
+</section>
+<section id="clifford-algebras" class="level2">
+<h2 class="anchored" data-anchor-id="clifford-algebras">Clifford Algebras</h2>
+<blockquote class="blockquote">
+<p>TLDR: Clifford algebras unify many parts of mathematical physics by introducing multivectors. Multivectors consist of e.g.&nbsp;oriented areas and volumes.</p>
+</blockquote>
+<p>This section introduces the mathematical concept required to understand the theory of the new layers. The so called <em>Clifford algebra</em> introduces <em>multivectors</em>. Multivectors are a generalization of vectors and scalars. They can contain information about oriented areas, volumes and other geometric primitives enabling computation using the <em>geometric product</em>.</p>
+<p>If you do not feel like diving in deep in to the mathematical theory, you can savely skip this part and go directly to the where we summarize the most important concepts of this section.</p>
+<p>For a visual introduction and an expression of how Clifford algebras make the language of math and physics simpler and more beautiful, also watch <a href="https://www.youtube.com/watch?v=60z_hpEAtD8">this youtube video</a> which was a great inspiration for this part of the blog post.</p>
+<section id="what-is-a-clifford-algebra" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-a-clifford-algebra">What is a Clifford Algebra?</h3>
+<p>Clifford algebras are a mathematical language to represent almost all of physics. Many physical expressions get more easy and intuitive once you understand Clifford algebras.</p>
+<p>One main concept that is required to understand Clifford layers is the <em>geometric product</em>. While we do know how to multiply two numbers (<span class="math inline">\(\mathbb{R}\times\mathbb{R}\rightarrow\mathbb{R}\)</span>), an operation multiplying two vectors (<span class="math inline">\(\mathbb{R}^n\times\mathbb{R}^n\rightarrow\mathbb{R}^n\)</span>) is <em>not</em> defined in classical math. The geometric product fills this gap by introducing an operator mapping two multivectors to a new multivector (<span class="math inline">\(Cl_{p,q}(\mathbb{R})\times Cl_{p,q}(\mathbb{R})\rightarrow Cl_{p,q}(\mathbb{R})\)</span>). However, before we can introduce the geometric product, we need to understand the concept of multivectors and geometric primitives.</p>
+</section>
+<section id="geometric-primitives" class="level3">
+<h3 class="anchored" data-anchor-id="geometric-primitives">Geometric Primitives</h3>
+<section id="vectors" class="level4">
+<h4 class="anchored" data-anchor-id="vectors">Vectors</h4>
+<p>Next to scalars, vectors are the a geometric primitive most people are familiar with. They contain information about a direction and a magnitude aka a length. A vector <span class="math inline">\(v\in \mathbb{R}^n\)</span> can be represented as a linear combination of basis vectors <span class="math inline">\(\vec{e}_i\)</span></p>
+<p><span class="math display">\[
+  \vec{v} = \sum_{i=1}^n v_i \vec{e}_i
+\]</span></p>
+<p>For example <span class="math inline">\(\vec{v}=(2,3) = 2\vec{e}_1 + 3\vec{e}_2\)</span> in 2D:</p>
+<p align="center">
+<img src="images/Basis_Vectors.png" width="300px">
+</p>
+<p>What can we do with these vectors? We can add them, subtract them and multiply them with a scalar. This is all that is needed to form a vector space. The closest thing we have to a multiplication of two vectors for general <span class="math inline">\(n\)</span> is the dot product being defined on the spaces <span class="math inline">\(\mathbb{R}^n \times \mathbb{R}^n \rightarrow \mathbb{R}\)</span>. We compute it by summing the products of the individual components:</p>
+<p><span class="math display">\[
+  v\cdot w = \sum_{i=1}^n v_i w_i
+\]</span></p>
+</section>
+<section id="bivectors" class="level4">
+<h4 class="anchored" data-anchor-id="bivectors">Bivectors</h4>
+<p>Introducing a new geometric primitive, we will talk about <em>Bivectors</em>. These bivectors are an “oriented area”. Just as vectors are an expression of a direction with their magnitude being their length, bivectors are an expression of an orientation with the magnitude being the area:</p>
+<p align="center">
+<img src="images/Bivectors_intro.png" width="300px">
+</p>
+<p>Both of the above are 2D bivectors, as the shape of the area is not part of the definition. A bivector only consists of an orientation and an area. You can imagine the difference between a line and a vector as similar to the difference between a plane and a bivector. A line is an object with shapes, curves and a length while a vector is not defined at a specific location in space but has a direction and a length.</p>
+<section id="bivector-operations" class="level5">
+<h5 class="anchored" data-anchor-id="bivector-operations">Bivector Operations</h5>
+<p>To calculate with bivectors, we first represent them in a basis. The basis in 3D consists of the areas spanned by the unit vectors i.e.&nbsp;<span class="math inline">\(\vec{e}_1 \wedge \vec{e}_2\)</span> and <span class="math inline">\(\vec{e}_2 \wedge \vec{e}_3\)</span> and <span class="math inline">\(\vec{e}_3 \wedge \vec{e}_1\)</span>. This is called the <em>wedge</em> or <em>outer</em> product and we will see later what it represents in detail.</p>
+<p align="center">
+<img src="images/Bivector_basis.png" width="300px">
+</p>
+<p>With this definition of a basis, we can now represent a bivector as a linear combination of the basis bivectors:</p>
+<p><span class="math display">\[
+\begin{aligned}
+  A &amp;= a_1 (\vec{e}_1 \wedge \vec{e}_2) + a_2 (\vec{e}_2 \wedge \vec{e}_3) + a_3 (\vec{e}_3 \wedge \vec{e}_1) \\
+  &amp;= a_1 \; \vec{e}_1\vec{e}_2 + a_2 \; \vec{e}_2\vec{e}_3 + a_3 \; \vec{e}_3\vec{e}_1
+\end{aligned}
+\]</span></p>
+<p>We introduced a new notation to avoid the clutter of the wedge product. When adding two bivectors, we can just add their components in the basis:</p>
+<p><span class="math display">\[
+  A + B = (a_1 + b_1) \; \vec{e}_1\vec{e}_2 + (a_2 + b_2) \; \vec{e}_2\vec{e}_3 + (a_3 + b_3) \; \vec{e}_3\vec{e}_1
+\]</span></p>
+<p>Multiplication with a scalar is also similar to vectors, instead of the length being amplified, the area of bivectors is scaled.</p>
+</section>
+</section>
+<section id="trivectors-and-k-vectors" class="level4">
+<h4 class="anchored" data-anchor-id="trivectors-and-k-vectors">Trivectors and k-vectors</h4>
+<p>We can now expand this concept further into <em>Trivectors</em>. Trivectors are oriented volumes and their magnitude is their volume. <span class="math inline">\(k\)</span>-vectors are oriented <span class="math inline">\(k\)</span>-dimensional volumes.</p>
+<p align="center">
+<img src="images/Trivectors_intro.png" width="100px">
+</p>
+</section>
+<section id="multivectors" class="level4">
+<h4 class="anchored" data-anchor-id="multivectors">Multivectors</h4>
+<p>All of these concepts can be combined into <em>multivectors</em>. Multivectors are a linear combination of all of the above. This means that a multivector has a scalar part, a vector part, a bivector part, a trivector part and so on. In 2D for example, a multivector has 4 components:</p>
+<p><span class="math display">\[
+  M = m_0 + m_1 \vec{e}_1 + m_2 \vec{e}_2 + m_3 \vec{e}_1\vec{e}_2,
+\]</span></p>
+<p>and in 3D it has 8 components:</p>
+<p><span class="math display">\[
+  M = m_0 + m_1 \vec{e}_1 + m_2 \vec{e}_2 + m_3 \vec{e}_3 + m_4 \vec{e}_1\vec{e}_2 + m_5 \vec{e}_2\vec{e}_3 + m_6 \vec{e}_3\vec{e}_1 + m_7 \vec{e}_1\vec{e}_2\vec{e}_3
+\]</span></p>
+<p>Adding two multivectors is just adding their components in the respective basis. For multiplication we can use the <em>geometric product</em>.</p>
+</section>
+</section>
+<section id="geometric-product" class="level3">
+<h3 class="anchored" data-anchor-id="geometric-product">Geometric Product</h3>
+<p>We now have different geometric primitives and now want to compute with them. Before directly jumping to the geometric product, let’s first look at the <em>outer product</em> or <em>wedge product</em>. The wedge product is a product between two vectors that returns a bivector.</p>
+<p>The wedge product expresses the area spanned by two vectors. For example, the area spanned by <span class="math inline">\(\vec{e}_1\)</span> and <span class="math inline">\(\vec{e}_2\)</span> is the unit area.</p>
+<p>The area of a vector with itself is zero as it is parallel to itself, so <span class="math inline">\(\vec{e}_1 \wedge \vec{e}_1 = 0\)</span>. The wedge product of two arbitrary vectors <span class="math inline">\(\vec{a}\)</span> and <span class="math inline">\(\vec{b}\)</span> is therefore:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\vec{a} \wedge \vec{b} &amp;= (a_1 \;\vec{e}_1 + a_2 \;\vec{e}_2) \wedge (b_1 \;\vec{e}_1 + b_2 \;\vec{e}_2) \\
+                       &amp;= a_1 b_1 \;\vec{e}_1 \wedge \vec{e}_1 + a_1 b_2 \;\vec{e}_1 \wedge \vec{e}_2 + a_2 b_1 \;\vec{e}_2 \wedge \vec{e}_1 + a_2 b_2 \;\vec{e}_2 \wedge \vec{e}_2 \\
+                       &amp;= a_1 b_2 \;\vec{e}_1 \wedge \vec{e}_2 - a_2 b_1 \;\vec{e}_1 \wedge \vec{e}_2 \\
+\end{aligned}
+\]</span></p>
+<p>Or represented graphically:</p>
+<p align="center">
+<img src="images/Wedge_product.png" width="300px">
+</p>
+<p>The direction in which the area is oriented is given by the order of the vectors. This means <span class="math inline">\(\vec{a} \wedge \vec{b} = - \vec{a} \wedge \vec{b}\)</span>.</p>
+<p>Now back to the geometric product. Without interpreting, see what happens if we multiply two 2D vectors by multiplying their components:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\vec{a} \vec{b} &amp;= (a_1 \;\vec{e}_1 + a_2 \;\vec{e}_2) (b_1 \;\vec{e}_1 + b_2 \;\vec{e}_2) \\
+                &amp;= a_1 b_1 \;\underbrace{\vec{e}_1 \vec{e}_1}_{=1} + a_1 b_2 \;\vec{e}_1 \vec{e}_2 + a_2 b_1 \;\vec{e}_2 \vec{e}_1 + a_2 b_2 \;\underbrace{\vec{e}_2 \vec{e}_2}_{=1} \\
+                &amp;= a_1 b_1 \; 1 + a_1 b_2 \;\vec{e}_1 \vec{e}_2 + a_2 b_1 \;\vec{e}_2 \vec{e}_1 + a_2 b_2 \; 1 \\
+                &amp;= a_1 b_1+ a_2 b_2 + a_1 b_2 \;\vec{e}_1 \vec{e}_2 - a_2 b_1 \;\vec{e}_1 \vec{e}_2  \\
+                &amp;= \underbrace{(a_1 b_1+ a_2 b_2)}_{\text{scalar}} + \underbrace{(a_1 b_2 - a_2 b_1) \;\vec{e}_1 \vec{e}_2}_{\text{bivector}} \\
+\Rightarrow\vec{a} \vec{b} &amp;:= \vec{a}\cdot\vec{b} + \vec{a}\wedge\vec{b}
+\end{aligned}
+\]</span></p>
+<p>We have found an expression of the geometric product between to vectors in terms of the dot product and the wedge product. By analysing the calculation we notice that the area spanned by <span class="math inline">\(\vec{e}_1\)</span> and <span class="math inline">\(\vec{e}_1\)</span> has no orientation as the vector is parallel to itself. We can therefore set the geometric product <span class="math inline">\(\vec{e}_1 \vec{e}_1 = 1\)</span>. The same thing happens for <span class="math inline">\(\vec{e}_2 \vec{e}_2 = 1\)</span>. This makes sense if we apply this new definition to our basis vectors:</p>
+<p><span class="math display">\[
+\vec{e}_1 \vec{e}_1 = \vec{e}_1 \cdot \vec{e}_1 + \underbrace{\vec{e}_1 \wedge \vec{e}_1}_{=0} = \| \vec{e}_1 \|^2 = 1
+\]</span></p>
+<p>The fact that we add a scalar <span class="math inline">\(\vec{a}\cdot\vec{b}\)</span> to a bivector <span class="math inline">\(\vec{a}\wedge\vec{b}\)</span> might seem strange as we do not have to have an algebraic interpretation for this addition. However, if we work with complex numbers we do the exact same, we just add a real number to a complex number without letting them interact with one another. The same thing happens here. We add a scalar to a bivector.</p>
+<p>To compute an arbitrary geometric product of any multivector we can use the following algorithm:</p>
+<ol type="1">
+<li>Express the multivectors as a sum of basis elements</li>
+<li>Use the fact that <span class="math inline">\(\vec{e}_i \vec{e}_i = 1\)</span> and <span class="math inline">\(\vec{e}_i \vec{e}_j = - \vec{e}_j \vec{e}_i\)</span> to simplify the expression</li>
+<li>Collect the terms with the same basis elements</li>
+</ol>
+<details>
+<summary>
+Other Examples and Additions
+</summary>
+<ol type="1">
+<li>The geometric product of two arbitrary multivectors <span class="math inline">\(\vec{n}, \vec{m}\)</span>:</li>
+</ol>
+<p><span class="math display">\[
+\begin{aligned}
+\vec{n} \vec{m}
+&amp;= (n_0 + n_1 \;\vec{e}_1 + n_2 \; \vec{e}_2 + n_3 \; \vec{e}_1\vec{e}_2)(m_0 + m_1 \;\vec{e}_1 + m_2 \; \vec{e}_2 + m_3 \; \vec{e}_1\vec{e}_2)\\
+&amp;= n_0 m_0 + n_0 m_1 \;\vec{e}_1 + n_0 m_2 \; \vec{e}_2 + n_0 m_3 \; \vec{e}_1\vec{e}_2 \\
+&amp;+ n_1 m_0 \;\vec{e}_1 + n_1 m_1 \;\vec{e}_1\vec{e}_1 + n_1 m_2 \; \vec{e}_1\vec{e}_2 + n_1 m_3 \; \vec{e}_1\vec{e}_1\vec{e}_2 \\
+&amp;+ n_2 m_0 \; \vec{e}_2 + n_2 m_1 \; \vec{e}_2\vec{e}_1 + n_2 m_2 \; \vec{e}_2\vec{e}_2 + n_2 m_3 \; \vec{e}_2\vec{e}_1\vec{e}_2 \\
+&amp;+ n_3 m_0 \; \vec{e}_1\vec{e}_2 + n_3 m_1 \; \vec{e}_1\vec{e}_1\vec{e}_2 + n_3 m_2 \; \vec{e}_1\vec{e}_2\vec{e}_2 + n_3 m_3 \; \vec{e}_1\vec{e}_2\vec{e}_1\vec{e}_2 \\
+&amp;= n_0 m_0 + n_0 m_1 \;\vec{e}_1 + n_0 m_2 \; \vec{e}_2 + n_0 m_3 \; \vec{e}_1\vec{e}_2 \\
+&amp;+ n_1 m_0 \;\vec{e}_1 + n_1 m_1 \; 1 + n_1 m_2 \; \vec{e}_1\vec{e}_2 + n_1 m_3 \; \vec{e}_2 \\
+&amp;+ n_2 m_0 \; \vec{e}_2 - n_2 m_1 \; \vec{e}_1\vec{e}_2 + n_2 m_2 \; 1 - n_2 m_3 \; \vec{e}_1\\
+&amp;+ n_3 m_0 \; \vec{e}_1\vec{e}_2 - n_3 m_1 \; \vec{e}_1\vec{e}_2 + n_3 m_2 \; \vec{e}_1 - n_3 m_3 \; 1 \\
+&amp;= (n_0 m_0 + n_1 m_1 + n_2 m_2 + n_3 m_3) \\
+&amp;+ (n_0 m_1 + n_1 m_0 - n_2 m_3 + n_3 m_2) \; \vec{e}_1 \\
+&amp;+ (n_0 m_2 + n_1 m_3 + n_2 m_0 - n_3 m_1) \; \vec{e}_2 \\
+&amp;+ (n_0 m_3 - n_1 m_2 + n_2 m_1 + n_3 m_0) \; \vec{e}_1\vec{e}_2 \\
+\end{aligned}
+\]</span></p>
+<ol start="2" type="1">
+<li><p>The geometric product of a vector with itself <span class="math display">\[
+\vec{a} \vec{a} = \vec{a} \cdot \vec{a} + \vec{a} \wedge \vec{a} = \vec{a} \cdot \vec{a} = ||\vec{a}||^2
+\]</span> reveiling the inverse of a vector regarding the geometric product: <span class="math inline">\(\vec{a}^{-1} = \frac{\vec{a}}{||\vec{a}||^2}\)</span> because <span class="math inline">\(\vec{a} \vec{a}^{-1} = \vec{a} \frac{\vec{a}}{||\vec{a}||^2} = \frac{\vec{a} \vec{a}}{||\vec{a}||^2} = \frac{||\vec{a}||^2}{||\vec{a}||^2} = 1\)</span></p></li>
+<li><p>Because the outer product is not commutative, we have to be careful with the order of the vectors in the geometric product.</p>
+<p><span class="math display">\[
+\vec{a} \vec{b} = \vec{a} \cdot \vec{b} + \vec{a} \wedge \vec{b}
+\]</span></p>
+<p>but</p>
+<p><span class="math display">\[
+\vec{b} \vec{a} = \vec{b} \cdot \vec{a} + \vec{b} \wedge \vec{a} = \vec{a} \cdot \vec{b} - \vec{a} \wedge \vec{b}.
+\]</span></p>
+<p>From this we can derive expressions of the outer product <span class="math inline">\(\vec{a} \wedge \vec{b} = \frac{1}{2} (\vec{a} \vec{b} - \vec{b} \vec{a})\)</span> and for the inner product <span class="math inline">\(\vec{a} \cdot \vec{b} = \frac{1}{2} (\vec{a} \vec{b} + \vec{b} \vec{a})\)</span> in terms of the geometric product</p></li>
+<li><p>An arbitrary vector multiplication in 3D: <span class="math display">\[
+\begin{aligned}
+\vec{a} \vec{b} &amp;= (a_1 \vec{e}_1 + a_2 \vec{e}_2 + a_3 \vec{e}_3) (b_1 \vec{e}_1 + b_2 \vec{e}_2 + b_3 \vec{e}_3) \\
+                &amp;= a_1 b_1 \vec{e}_1 \vec{e}_1 + a_1 b_2 \vec{e}_1 \vec{e}_2 + a_1 b_3 \vec{e}_1 \vec{e}_3 + a_2 b_1 \vec{e}_2 \vec{e}_1 + a_2 b_2 \vec{e}_2 \vec{e}_2 + a_2 b_3 \vec{e}_2 \vec{e}_3 + a_3 b_1 \vec{e}_3 \vec{e}_1 + a_3 b_2 \vec{e}_3 \vec{e}_2 + a_3 b_3 \vec{e}_3 \vec{e}_3 \\
+                % for same basis vectors, the inner product is 1
+                &amp;= a_1 b_1 + a_1 b_2 \vec{e}_1 \vec{e}_2 + a_1 b_3 \vec{e}_1 \vec{e}_3 + a_2 b_1 \vec{e}_2 \vec{e}_1 + a_2 b_2 + a_2 b_3 \vec{e}_2 \vec{e}_3 + a_3 b_1 \vec{e}_3 \vec{e}_1 + a_3 b_2 \vec{e}_3 \vec{e}_2 + a_3 b_3 \\
+                % switch order of different basis vectors at cost of minus sign
+                &amp;= a_1 b_1 + a_1 b_2 \vec{e}_1 \vec{e}_2 + a_1 b_3 \vec{e}_1 \vec{e}_3 - a_2 b_1 \vec{e}_1 \vec{e}_2 + a_2 b_2 + a_2 b_3 \vec{e}_2 \vec{e}_3 - a_3 b_1 \vec{e}_1 \vec{e}_3 - a_3 b_2 \vec{e}_2 \vec{e}_3 + a_3 b_3 \\
+                % group scalar and bivector terms
+                &amp;= \underbrace{a_1 b_1 + a_2 b_2 + a_3 b_3}_{\vec{a} \cdot \vec{b}} + \underbrace{(a_1 b_2 - a_2 b_1) \vec{e}_1 \vec{e}_2 + (a_1 b_3 - a_3 b_1) \vec{e}_1 \vec{e}_3 + (a_2 b_3 - a_3 b_2) \vec{e}_2 \vec{e}_3}_{=:\vec{a} \wedge \vec{b}} \\
+                % use definition of inner and outer product
+                &amp;= \vec{a} \cdot \vec{b} + \vec{a} \wedge \vec{b}
+\end{aligned}
+\]</span></p></li>
+<li><p>Sidenote: compare outer product to cross product: <span class="math display">\[
+\begin{aligned}
+\vec{a} \wedge \vec{b} &amp;= (a_1 b_2 - a_2 b_1) \vec{e}_1 \vec{e}_2 + (a_1 b_3 - a_3 b_1) \vec{e}_1 \vec{e}_3 + (a_2 b_3 - a_3 b_2) \vec{e}_2 \vec{e}_3 \\
+\vec{a} \times \vec{b} &amp;= (a_1 b_2 - a_2 b_1) \vec{e}_3 - (a_1 b_3 - a_3 b_1) \vec{e}_2 - (a_2 b_3 - a_3 b_2) \vec{e}_1 \\
+\end{aligned}
+\]</span></p></li>
+</ol>
+</details>
+</section>
+<section id="pseudoscalars" class="level3">
+<h3 class="anchored" data-anchor-id="pseudoscalars">Pseudoscalars</h3>
+<p>The last concept to fully understand the paper (which we will come back to, I promise) are pseudoscalars. In 2D a multivectors only has one bivector component unlike in 3D where the multivector is composed of three bivectors. This means that the bivector part in 3D also has an orientation. You can imagine this as with vectors stepping from 1D to 2D. In 1D a multivector only consists of a single number. In 2D there is now an orientation in space represented by two vector components. Same thing for the step to 3D. In 3D there is now an orientation of an area in 3D space whereas in 2D a bivector could only lie in the 2D plane. We name the primitive that only consists of one component a pseudoscalar.</p>
+<p>To make it more clear, lets give the unit pseudoscalar a name: <span class="math inline">\(\vec{e}_1 \vec{e}_2 =: i\)</span>. Do you see the connection to complex numbers? Let’s multiply <span class="math inline">\(i\)</span> with itself:</p>
+<p><span class="math display">\[
+\begin{aligned}
+i^2 &amp;= (\vec{e}_1 \vec{e}_2) (\vec{e}_1 \vec{e}_2) \\
+    &amp;= \vec{e}_1 \vec{e}_2 \vec{e}_1 \vec{e}_2 \\
+    &amp;= -\vec{e}_1 \vec{e}_1 \vec{e}_2 \vec{e}_2 \\
+    &amp;= -1
+\end{aligned}
+\]</span></p>
+<p>Computing the geometric product between an vector and the pseudoscalar <span class="math inline">\(i\)</span> rotates the vector by 90 degrees in space. The connection to complex numbers therefore becomes clearer: The complex number <span class="math inline">\(1\)</span> is the unit scalar. Then <span class="math inline">\(1\cdot i\)</span> is rotated by 90 degrees in the complex plane and just the imaginary unit <span class="math inline">\(i\)</span>.</p>
+<p>In deed, the geometric algebra in 2D is isomorphic to the complex numbers. The same can be done for 3D, where the unit pseudoscalar is <span class="math inline">\(\vec{e}_1 \vec{e}_2 \vec{e}_3 =: i\)</span>. In 3D the geometric algebra is isomorphic to the <em><a href="https://en.wikipedia.org/wiki/Quaternion" title="Wikipedia: Quaternions">quaternions</a></em> which are basically complex numbers with three imaginary units. Quaternions are often used in computer graphics to represent rotations. The paper also makes use of this fact to create <em>Roational Clifford CNN layers</em>.</p>
+<details>
+<summary>
+Connection to the cross prodcuct
+</summary>
+<p>If we calculate the product of a vector and <span class="math inline">\(i\)</span> in 3D, it is always a bivector: <span class="math display">\[ \vec{e}_1i = \vec{e}_1 \vec{e}_1\vec{e}_2\vec{e}_3 = \vec{e}_2\vec{e}_3\]</span> This bivector follows the right hand rule discussed earlier. If the thumb is put in direction of <span class="math inline">\(\vec{e}_1\)</span> the other fingers point in the direction of the bivector spanned by <span class="math inline">\(\vec{e}_2\)</span> and <span class="math inline">\(\vec{e}_3\)</span>. As this holds for any vector, bivectors can be represented by their normal vectors in 3D. In fact: <span class="math display">\[
+      \vec{a} \wedge \vec{b} = i (\vec{a} \times \vec{b})
+      \]</span> Now we dont need cross product anymore! One nice example is Torque <span class="math inline">\(N\)</span>: <span class="math display">\[\vec{N} = \vec{r} \times \vec{F}\]</span> Here the torque is a vector pointing in the direction of the axis of rotation. However, if we replace this with the outer product <span class="math display">\[\vec{N} = \vec{r} \wedge \vec{F}\]</span> we get a bivector. This bivector is a rotation object that rotates the vector <span class="math inline">\(\vec{r}\)</span> into the direction of <span class="math inline">\(\vec{F}\)</span> which to me is a much more intuitive way to thinking about torque.</p>
+</details>
+</section>
+<section id="summary-of-clifford-algebra" class="level3">
+<h3 class="anchored" data-anchor-id="summary-of-clifford-algebra">Summary of Clifford Algebra</h3>
+<p>We have now introduced the different geometric primitives being scalars, vectors, bivectors, trivectors and so on. An object in the Clifford algebra is called a multivector. A multivector is a sum of different geometric primitives.</p>
+<p>To calculate the geometric product between two multivectors we use the distributive law and the geometric product between the different unit primitives.</p>
+<p>The pseudoscalar in 2D is a bivector and in 3D a trivector as it is the highest possible geometric primitive in the respective dimensions. We denote the pseudoscalar with <span class="math inline">\(i\)</span>.</p>
+<p>The main takeaway from this section is that we now have objects that can represent vectors and scalars. We can take these multivectors and multiply them with each other using the geometric product to get a modified multivector. Switching normal multiplications with the geometric product is the basis of this paper.</p>
+</section>
+</section>
+<section id="fourier-neural-operators" class="level2">
+<h2 class="anchored" data-anchor-id="fourier-neural-operators"><a href="https://arxiv.org/pdf/2010.08895.pdf">Fourier Neural Operators</a></h2>
+<blockquote class="blockquote">
+<p>TLDR: Fourier Neural operators are a efficient way to learn operators. They map one functional spaces to a solution function space.</p>
+</blockquote>
+<p>We have now introduced the Clifford algebra and turn towards machine learning. The paper utilizes different types of network architectures, notably the <em>Fourier Neural Operator</em> which needs further explanation. We split this into two parts: First we will discuss the <em>Neural Operator</em> and then the <em>Fourier Neural Operator</em> as an extension of the former.</p>
+<section id="neural-operators" class="level3">
+<h3 class="anchored" data-anchor-id="neural-operators">Neural Operators</h3>
+<p>Neural Operators are a type of neural architecture that can be used to solve partial differential equations (PDEs). These models learn to approximate operators instead of functions, which is very helpful for PDEs as they are often defined by operators.</p>
+<p>One PDE would be the laplacian operator that is used e.g.&nbsp;in the Poisson partial differential equation.</p>
+<p><span class="math display">\[
+\Delta u = f
+\]</span></p>
+<p>All PDEs can be expressed using the Green’s function <span class="math inline">\(G\)</span>. In this case this would be:</p>
+<p><span class="math display">\[
+u(x) = \int G(x, y) f(y) dy \text{ with } \Delta G(x, y) = \delta(x - y)
+\]</span></p>
+<p>For the laplace problem this Greens Function is (see <a href="https://en.wikipedia.org/wiki/Green's_function#Table_of_Green's_functions">on wikipedia</a>)</p>
+<p><span class="math display">\[
+G(x, y) = \frac{1}{2\pi} \ln\|x - y\|_2
+\]</span></p>
+<p>The Green’s function has to be continuous. As we know, neural networks are universal approximators, therefore a network is able to approximate the Green’s function. This is the idea behind neural operators.</p>
+<p>Advantages:</p>
+<ul>
+<li>The neural operator can be applied to any function <span class="math inline">\(f\)</span> and any mesh <span class="math inline">\(x\)</span>.</li>
+<li>It only needs to be trained once for a PDE and then takes the different boundary and initial conditions as input to output a solution. This is in contrast to the finite element method, where the mesh needs to be refined for every slightly different input.</li>
+<li>Neural operators only require data to learn a PDE, with no knowledge of the underlying mathematics.</li>
+</ul>
+<p>Problem so far:</p>
+<p>The integral in the above equation is expensive to evaluate. The idea of Fourier neural operators is to transform this expression into a convolution in the Fourier domain, where it becomes a simple point-wise multiplication and thereby much faster to evaluate.</p>
+</section>
+<section id="fourier-neural-operators-1" class="level3">
+<h3 class="anchored" data-anchor-id="fourier-neural-operators-1">Fourier Neural operators</h3>
+<p>Putting the theory of neural operators behind, Fourier neural operators are a type of neural operator that uses the Fourier transform to speed up the evaluation of the integral. In practice, we create a neural network that takes in the initial and boundary conditions and outputs the solution to the PDE or the next time step of the PDE. One layer of the network takes in a signal, applies a Fourier transform, linearly transforms it using learned weights and then reverts back to the signal domain. Two more things are important: High frequencies are discarded before transforming back and also a residual connection is added. The architecture is shown below.</p>
+<p align="center">
+<img src="images/fourier_operator.png" width="400">
+</p>
+<p>Now to the main motivation of this paper: The authors argue that the linear transformation does not take into account the connection between different vector components. The structure is destroyed. Imagine <span class="math inline">\(f\)</span> consisting of two quantities, pressure <span class="math inline">\(p\)</span> and velocity <span class="math inline">\(\vec{v}\)</span>. The linear transformation would not take into account that the pressure is scalar whereas the velocity is a vector. In a traditional neural network, the <span class="math inline">\(p\)</span>, <span class="math inline">\(v_x\)</span> and <span class="math inline">\(v_y\)</span> would be different channels of the input <span class="math inline">\(f\)</span> ignoring the connection between the latter two. The authors therefore introduce a new type of layer that preserves this structure.</p>
+</section>
+</section>
+<section id="clifford-neural-layers" class="level2">
+<h2 class="anchored" data-anchor-id="clifford-neural-layers">Clifford Neural Layers</h2>
+<p>Just as with complex neural networks, the idea of Clifford neural networks is simple as long as the foundational mathematics is well understood: Replace the numbers in a neural network with multivectors and use the geometric product instead of the product of two scalars. For complex numbers this has already been done by <a href="https://arxiv.org/abs/1705.09792">Trabesi <em>et al</em></a> replacing the real convolution of a convolutional neural network (CNN) with a complex counterpart.</p>
+<p>In the following we go through the different newly introduced layers and explain their background.</p>
+<section id="clifford-cnn-layers" class="level3">
+<h3 class="anchored" data-anchor-id="clifford-cnn-layers">Clifford CNN layers</h3>
+<blockquote class="blockquote">
+<p>TLDR: Clifford CNN Layers replace the pixelwise multiplication of the convolution by a geometric product on multivectors.</p>
+</blockquote>
+<p>In a traditional CNNs, the input <span class="math inline">\(f\)</span> is convolved with the weights <span class="math inline">\(w\)</span>:</p>
+<p><span class="math display">\[
+\left[f \star w^{i}\right](x)=\sum_{y \in \mathbb{Z}^{2}}\left\langle f(y), w^{i}(y-x)\right\rangle=\sum_{y \in \mathbb{Z}^{2}} \sum_{j=1}^{c_{\text {in }}} f^{j}(y) w^{i, j}(y-x)
+\]</span></p>
+<p><strong>Gif für einen channel einer convolution</strong></p>
+<p>The weights <span class="math inline">\(w\)</span> consist of <span class="math inline">\(c_{out}\)</span> filters, each of which is a <span class="math inline">\(c_{in}\)</span>-dimensional vector field just like the input <span class="math inline">\(f\)</span>. To express the convolution we therefore need to sum over the channels <span class="math inline">\(j\)</span> of the input and the weights for each output channel <span class="math inline">\(i\)</span>. To extend this to multivector fields, we just replace the scalar product <span class="math inline">\(f^j(y) w^{i,j}(y-x)\)</span> with the geometric product of two multivectors <span class="math inline">\(\boldsymbol{f}\)</span> and <span class="math inline">\(\boldsymbol{w}\)</span>:</p>
+<p><span class="math display">\[
+\left[\boldsymbol{f} \star \boldsymbol{w}^{i}\right](x)=\sum_{y \in \mathbb{Z}^{2}} \sum_{j=1}^{c_{\text {in }}} \underbrace{\boldsymbol{f}^{j}(y) \boldsymbol{w}^{i, j}(y-x)}_{\boldsymbol{f}^{j} \boldsymbol{w}^{i, j}: G^{2} \times G^{2} \rightarrow G^{2}} .
+\]</span></p>
+<p>To be more specific, <span class="math inline">\(\boldsymbol{f}\)</span> and <span class="math inline">\(\boldsymbol{w}\)</span> are vectors in <span class="math inline">\(G\)</span> which is not the Clifford algebra, but the real vector containing the coefficients of the multivector fields. The multiplication of these two vectors is the geometric product realized with the basis defined by the Clifford algebra. We then again get a vector field as output which are the coefficients of a multivector field with <span class="math inline">\(c_{out}\)</span> channels.</p>
+<!-- The geometric product is computed as described before, using the precedure of using the fact that $\vec{e}_i \vec{e}_j = -\vec{e}_j \vec{e}_i$ if $i \neq j$ and $\vec{e}_i \vec{e}_i = 1$ and grouping the terms by grade. -->
+</section>
+<section id="rotational-clifford-cnn-layers" class="level3">
+<h3 class="anchored" data-anchor-id="rotational-clifford-cnn-layers">Rotational Clifford CNN layers</h3>
+<blockquote class="blockquote">
+<p>TLDR: Rotational Clifford CNN layers make use of quaternions to replace the geometric product with a matrix-vector multiplication.</p>
+</blockquote>
+<p>Rotational Clifford CNN layers are an alternative parametrization to the above. I mentioned that the 3D Clifford algebra <span class="math inline">\(Cl_{0,2}\)</span> is isomorph to the quaternions where rotations can be realized using a matrix multiplication. Instead of using the geometric product, we can modify the input using rotations</p>
+<p><span class="math display">\[
+\begin{aligned}
+{\left[\boldsymbol{f} \star \boldsymbol{w}_{\mathrm{rot}}^i\right](x) } &amp; =\sum_{y \in \mathbb{Z}^2} \sum_{j=1}^{c_{\text {in }}} \boldsymbol{f}^j(y) \boldsymbol{w}_{\mathrm{rot}}^{i, j}(y-x) \\
+&amp; =\sum_{y \in \mathbb{Z}^2} \sum_{j=1}^{c_{\text {in }}} \underbrace{\left.\left[\boldsymbol{f}^j(y) \boldsymbol{w}_{\mathrm{rot}}^{i, j}(y-x)\right)\right]_0}_{\text {scalar output }}+\boldsymbol{R}^{i, j}(y-x) \cdot\left(\begin{array}{c}
+f_1^j(y) \\
+f_2^j(y) \\
+f_{12}^j(y)
+\end{array}\right)
+\end{aligned}
+\]</span></p>
+</section>
+<section id="clifford-fourier-layers" class="level3">
+<h3 class="anchored" data-anchor-id="clifford-fourier-layers">Clifford Fourier Layers</h3>
+<blockquote class="blockquote">
+<p>TLDR: A normal Fourier layer is modified to receive multivector input by splitting the multivectors into two complex parts on which a Fourier transform can be calculated independently.</p>
+</blockquote>
+<p>The last layer type the authors introduce are Clifford Fourier layers. These differ a bit in understanding from the Clifford CNN layers because they do not make use Fourier transform defined directly for Clifford algebras. Instead, multivector is split into two complex parts on which a Fourier transform can be calculated independently.</p>
+<section id="fourier-transform-for-multivectors" class="level4">
+<h4 class="anchored" data-anchor-id="fourier-transform-for-multivectors">Fourier Transform for Multivectors</h4>
+<p>In formulas, the Fourier transformation is imitated over multivectorfields in 2D in these two parts:</p>
+<p><span class="math display">\[
+\begin{aligned}
+  a &amp;= a_0 + a_1 e_1 + a_2 e_2 + a_{12} e_{12} \\
+    &amp;= 1\underbrace{(a_0 + a_{12}i_2)}_\text{spinor part} + e_1\underbrace{(a_1+a_2i_2)}_\text{vector part}
+  \end{aligned}
+\]</span></p>
+<p>Remember: The pseudoscalar <span class="math inline">\(i\)</span> is the highest grade primitive, e.g.&nbsp;in 2D the bivector and in 3D the trivector. Multiplying a vector with the pseudoscalar is realized as follows</p>
+<p><span class="math display">\[
+e_1*i = e_1 * e_{12} = e_1e_1e_2 = e_2,
+\]</span></p>
+<p>which explains how the vector part can be multiplied out to get the original vector</p>
+<p>With these two parts which can both be interpreted as complex numbers, we can compute a complex Fourier transform.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\hat{\boldsymbol{f}}(\xi)=\mathcal{F}\{\boldsymbol{f}\}(\xi) &amp; =\frac{1}{2 \pi} \int_{\mathbb{R}_2}\left[1(\underbrace{f_0(x)+f_{12}(x) i_2}_{\text {spinor part }})+e_1(\underbrace{f_1(x)+f_2(x) i_2}_{\text {vector part }})\right] e^{-2 \pi i_2\langle x, \xi\rangle} d x \\
+&amp; =1\left[\mathcal{F}\left(f_0(x)+f_{12}(x) i_2\right)(\xi)\right]+e_1\left[\mathcal{F}\left(f_1(x)+f_2(x) i_2\right)(\xi)\right]
+\end{aligned}
+\]</span></p>
+<p>Here you can see that the Fourier transformed vector <span class="math inline">\(\hat{\boldsymbol{f}}\)</span> is again a multivector as the second part is again multiplied with <span class="math inline">\(e_i\)</span>.</p>
+</section>
+<section id="clifford-fourier-neural-operator-layer" class="level4">
+<h4 class="anchored" data-anchor-id="clifford-fourier-neural-operator-layer">Clifford Fourier Neural Operator Layer</h4>
+<p align="center">
+<img src="images/CFNO_arch.png" width="400">
+</p>
+<p>For one Fourier neural operator layer, the input is transferred to Fourier space, then the spectrum is multiplied with learned multivector weights and put through a nonlinear activation function. Afterwards an inverse Fourier transform transfers the output back to Fourier space.</p>
+<p>With the above definition of the Fourier transform for multivector fields, we can now define a Clifford Fourier neural operator layer. The layer therefore consists of these steps:</p>
+<ol type="1">
+<li>Input signal <span class="math inline">\(f(x)\)</span> gets split into spinor <span class="math inline">\(s(x)\)</span> and vector <span class="math inline">\(v(x)\)</span> parts</li>
+<li>Fourier transform spinor and vector parts independently</li>
+<li>Matrix multiplicaton of weights with transformed spinor and vector parts</li>
+<li>Inverse Fourier transform</li>
+<li>Recombine spinor and vector parts</li>
+</ol>
+<p>Like in normal Fourier neural operators, frequencies above a cut-off frequency are zero.</p>
+<p>For 3D we can analogously construct four separate Fourier transforms that can be combined to emulate a Fourier transform in the 3D multivector space</p>
+</section>
+</section>
+</section>
+<section id="applications" class="level2">
+<h2 class="anchored" data-anchor-id="applications">Applications</h2>
+<p>Clifford layers are very versitile as they can be a used as drop-in replacement for normal layers. This makes application in a wide range of use-cases possible. The authors test the Clifford layers in three different contexts:</p>
+<ol type="1">
+<li>The <strong>Navier Stokes equations</strong> in 2D</li>
+<li>The <strong>shallow water equations</strong> for weather prediction</li>
+<li>The <strong>Maxwell equations</strong> for electromagnetic fields</li>
+</ol>
+<p>For each application, a ResNet architecture as well as a Fourier neural operator is trained and compared to their respective Clifford counterparts. The architectures of each network are modified to adjust for the different number of parameters. The Clifford layers have more parameters by default. In all examples a pseudo ground truth is used calculated by a traditional simulation.</p>
+<section id="d-incompressible-navier-stokes" class="level3">
+<h3 class="anchored" data-anchor-id="d-incompressible-navier-stokes">2D Incompressible Navier Stokes</h3>
+<blockquote class="blockquote">
+<p>TLDR: Clifford layers can be used to simulate fluid dynamics with higher accuracy than normal layers.</p>
+</blockquote>
+<p>Going back to the previously introduced 2D incompressible Navier stokes equations, we can now use the Clifford layers to simulate fluid dynamics. The equations are repeated here for convenience:</p>
+<p><span class="math display">\[
+\frac{\partial v}{\partial t} = -\underbrace{v\cdot \nabla v}_\text{convection} + \underbrace{\mu \nabla^2v}_\text{viscosity}-\underbrace{\nabla p}_\text{internal pressure} + \underbrace{f}_\text{external force},\quad \underbrace{\nabla \cdot v = 0}_\text{incompressibility constraint}
+\]</span></p>
+<p>The incompressibility constraint yields mass conservation. <span class="math inline">\(f\)</span> is in our case a buoyancy force. They introduce a new scalar that is transported through the velocity field, one real world example would be smoke concentration <span class="math inline">\(s(x)\)</span> in a room that is transported by air. This advection is described by <span class="math display">\[ \frac{ds}{dt}=-v\cdot\nabla s\]</span> The scalar field only acts on the velocity through the scalar external force i.e.&nbsp;the buoyancy force in our case.</p>
+<section id="implementation-of-pdes-for-neural-nets" class="level4">
+<h4 class="anchored" data-anchor-id="implementation-of-pdes-for-neural-nets">Implementation of PDEs for Neural Nets</h4>
+<section id="pde-details" class="level5">
+<h5 class="anchored" data-anchor-id="pde-details">PDE Details</h5>
+<p>To obtain the training data the PDEs are discretized on a 2D grid as well as in time and solve using a traditional solver. In this case a grid with resolution of <span class="math inline">\(\Delta x=\Delta y = 0.25\)</span>, and a temporal resolution of <span class="math inline">\(\Delta t=1.5s\)</span> is used. Homogeneous Dirichlet boundary conditions for the velocity (<span class="math inline">\(v=0\)</span> at the boundary) are applied. In our example this would mean that we are in a closed room. Homogenious Neumann boundaries <span class="math inline">\(\frac{\partial s}{\partial x}=0\)</span> for the scalar smoke field are used, which in turn means that the smoke does not leave the room or diffuse through the walls. The scalar field is initialized with gaussian noise fluctuations and the velocity field is initialized with a zero field. The noisy initialization leads to movement of the smoke field which is transported by the velocity field.</p>
+</section>
+<section id="training-details" class="level5">
+<h5 class="anchored" data-anchor-id="training-details">Training Details</h5>
+<p>The unknowns of the problem are combined into a single multivector. This means, the velocity field is combined with the smoke concentration into a multivector in each grid point. The loss is chosen as the summed Mean Squared Error (SMSE) which is defined as the sum of the MSE over all grid points for all fields and all time steps:</p>
+<p><span class="math display">\[
+\text{SMSE} = \sum_{t=1}^T \sum_{x\in \text{grid}} \sum_{i=1}^2 \left( v_i(x,t) - \hat{v}_i(x,t) \right)^2 + \sum_{t=1}^T \sum_{x\in \text{grid}} \left( s(x,t) - \hat{s}(x,t) \right)^2
+\]</span></p>
+<p>The models are trained with Adam optimizer for 50 epochs with a cosine annealing learning rate schedule. This took between 3h and 48h depending on the task. Clifford architectures took on average twice as long to train for equivalent models.</p>
+</section>
+</section>
+<section id="results" class="level4">
+<h4 class="anchored" data-anchor-id="results">Results</h4>
+<p>The results can be summarized as improvements accross the board for Clifford models.</p>
+<p align="center">
+<img src="images/Results_plot_navierStokes.png" alt="Results_plot_navierStokes" width="500">
+</p>
+<p>In this figure, the MSE for either one step (bottom) or the whole time series (Rollout, top) is shown. For the ResNet (left) models, two variants are depicted, one with Clifford CNN layers (yellow) and one with rotational CNN layers (orange). The number of trajectories is the number of training points and is increasing von right to left. The Clifford models outperform the unmodified models in all cases. With an increase in training points, the the Clifford variants are still better than the unmodified models, meaning that the accuracy normal models is not only preserved but also improved by the Clifford layers. They also mention that increasing the complexity of the model did not improve their performance.</p>
+<p>Notably the rotational Clifford CNNs perform better than the Clifford CNNs even though they have are equivalent in capability.</p>
+</section>
+</section>
+<section id="shallow-water-equations-for-weather-prediction" class="level3">
+<h3 class="anchored" data-anchor-id="shallow-water-equations-for-weather-prediction">Shallow Water Equations for Weather Prediction</h3>
+<p>Improving the accuracy of weather forcasts is a particularly important task as it can save lives. The shallow water equations are derived from the Navier Stokes equations and are used for weather prediction. We have again multiple unknowns that are combined into a multivector. The unknowns are the velocity field <span class="math inline">\(v\)</span> and the pressure field <span class="math inline">\(p\)</span> of this PDE system:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{\partial v_x}{\partial t}+v_x \frac{\partial v_x}{\partial x}+v_y \frac{\partial v_x}{\partial y}+g \frac{\partial \eta}{\partial x} &amp; =0, \\
+\frac{\partial v_y}{\partial t}+v_x \frac{\partial v_y}{\partial x}+v_y \frac{\partial v_y}{\partial y}+g \frac{\partial \eta}{\partial y} &amp; =0, \\
+\frac{\partial \eta}{\partial t}+\frac{\partial}{\partial x}\left[(\eta+h) v_x\right]+\frac{\partial}{\partial y}\left[(\eta+h) v_y\right] &amp; =0.
+\end{aligned}
+\]</span></p>
+<p>Here, <span class="math inline">\(v_x\)</span> and <span class="math inline">\(v_y\)</span> are the x and y components of the fluid velocity, <span class="math inline">\(g\)</span> the gravitational acceleration and <span class="math inline">\(\eta\)</span> the vertical displacement of the fluid surface (at the top). <span class="math inline">\(h\)</span> is the topography of the earth surface. The authors generate the dataset with <a href="https://github.com/SpeedyWeather/SpeedyWeather.jl">SpeedyWeather.jl</a> and train the same models as in the previous example. The results are similar to the previous example, the rotational Clifford models outperform the unmodified models. However, the Clifford CNNs in ResNet architectures perform worse than the unmodified models for small number of trajectories. This is attributed to the fact that the ResNet architecture may not be complex enough for the task. This can be seen as the Fourier neural operators need only a fraction of the trajectories that the ResNet architectures need to reach the same accuracy.</p>
+<p align="center">
+<img src="images/Results_plot_shallowWater.png" alt="Results_plot_shallowWater" width="500">
+</p>
+</section>
+<section id="maxwell-equations-for-electromagnetism" class="level3">
+<h3 class="anchored" data-anchor-id="maxwell-equations-for-electromagnetism">Maxwell Equations for Electromagnetism</h3>
+<p>Maxwells equations express the relationship between electric and magnetic fields. They are given by</p>
+<p><span class="math display">\[
+\begin{aligned}
+\nabla \cdot D &amp; =\rho &amp; &amp; \text { Gauss's law } \\
+\nabla \cdot B &amp; =0 &amp; &amp; \text { Gauss's law for magnetism } \\
+\nabla \times E &amp; =-\frac{\partial B}{\partial t} &amp; &amp; \text { Faraday's law of induction } \\
+\nabla \times H &amp; =\frac{\partial D}{\partial t}+j &amp; &amp; \text { Ampère's circuital law }
+\end{aligned}
+\]</span></p>
+<p>In these equations, <span class="math inline">\(D\)</span> is the electric displacement field, <span class="math inline">\(B\)</span> is the magnetic field, <span class="math inline">\(E\)</span> is the electrical field, <span class="math inline">\(H\)</span> is the magnetization field in isotropic media, <span class="math inline">\(\rho\)</span> is the total electric charge density and <span class="math inline">\(j\)</span> is the electric current density. As discussed in the section on <a href="#clifford-algebras">Clifford algebra</a>, the outer product is related to the cross product. Therefore the above equations lend themselves to expressing them in terms of multivector fields, making them a natural fit for the Clifford neural layers. The input to the network is a 3D multivector field where the electric field is the vector component and the magnetic field is the bivector component. So instead of 6 input fields you have one multivector field. The authors show that the Clifford architecture outperforms other architectures by a significant margin while only testing the Fourier neural operator.</p>
+<p align="center">
+<img src="images/Results_plot_Maxwell1.png" alt="Results_plot_Maxwell" width="250"><img src="images/Results_plot_Maxwell2.png" alt="Results_plot_Maxwell2" width="250">
+</p>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>We analyzed the paper <em>‘Geometric Clifford Algebra Networks and Clifford Neural Layers for PDE Modeling’</em> by Brandstetter, Berg, Welling and Gupta published at ICLR 2023. We first looked at the Clifford algebra and how it is a natural way to express PDEs. The authors took the properties of the Clifford algebra and used them to replace common computations in neural networks. They showed that this approach outperforms normal unmodified neural networks for the tasks of fluid dynamics and electromagnetism.</p>
+</section>
+<section id="limitations" class="level2">
+<h2 class="anchored" data-anchor-id="limitations">Limitations</h2>
+<p>The backward pass of the Clifford Fourier neural operator layer is slower than the normal Fourier neural operator layer as it uses the complex valued Fourier transform which is not as optimized for backward passes as the real valued Fourier transform in PyTorch. Parameter counts of Clifford CNN layers is smaller, but the number of operations is larger doubling the training time.</p>
+<p>One limitation of the tests is that the use a common network architecture for all tasks. It would be interesting to see if the Clifford layers can improve more task specific architectures as well.</p>
+</section>
+<section id="resources" class="level2">
+<h2 class="anchored" data-anchor-id="resources">Resources</h2>
+<p><a href="https://youtube.com/playlist?list=PL9VUuob0B7Mjxh0uWsrJwyz8k3F10YfIN">Some different presentations on Clifford Algebra</a></p>
+<p><a href="https://youtu.be/VXziLgMIWf8">“Geometric Clifford Algebra Networks and Clifford Neural Layers for PDE Modeling”</a></p>
+<p>Brandstetter, J., Berg, R. V. D., Welling, M., &amp; Gupta, J. K. (2022). <em>Clifford neural layers for PDE modeling</em>. arXiv preprint arXiv:<a href="https://arxiv.org/abs/2209.04934">2209.04934</a>.</p>
+<p>Li, Z., Kovachki, N., Azizzadenesheli, K., Liu, B., Bhattacharya, K., Stuart, A., &amp; Anandkumar, A. (2020). <em>Fourier neural operator for parametric partial differential equations</em>. arXiv preprint arXiv:<a href="https://arxiv.org/abs/2010.08895">2010.08895</a>.</p>
+<p>Trabelsi, C., Bilaniuk, O., Zhang, Y., Serdyuk, D., Subramanian, S., Santos, J. F., … &amp; Pal, C. J. (2017). <em>Deep complex networks</em>. arXiv preprint arXiv:<a href="https://arxiv.org/abs/1705.09792">1705.09792</a>.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
