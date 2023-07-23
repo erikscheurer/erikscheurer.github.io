@@ -581,7 +581,9 @@ As discussed in the section on [Clifford algebra](#clifford-algebras), the outer
 The input to the network is a 3D multivector field where the electric field is the vector component and the magnetic field is the bivector component. So instead of 6 input fields you have one multivector field.
 The authors show that the Clifford architecture outperforms other architectures by a significant margin while only testing the Fourier neural operator.
 
-<p align="center"> <img src="images/Results_plot_Maxwell1.png" alt="Results_plot_Maxwell" width="250"/><img src="images/Results_plot_Maxwell2.png" alt="Results_plot_Maxwell2" width="250"/>  </p>
+<p align="center">
+<img src="images/Results_plot_Maxwell2.png" alt="Results_plot_Maxwell2" width="500"/>  
+</p>
 
 ## Conclusion
 
