@@ -557,7 +557,12 @@ TLDR
 <p><span class="math display">\[
 \left[f \star w^{i}\right](x)=\sum_{y \in \mathbb{Z}^{2}}\left\langle f(y), w^{i}(y-x)\right\rangle=\sum_{y \in \mathbb{Z}^{2}} \sum_{j=1}^{c_{\text {in }}} f^{j}(y) w^{i, j}(y-x)
 \]</span></p>
-<p><strong>Gif für einen channel einer convolution</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://miro.medium.com/v2/resize:fit:720/1*D6iRfzDkz-sEzyjYoVZ73w.gif" class="img-fluid figure-img" style="width:90.0%"></p>
+<figcaption class="figure-caption">Source: <a href="https://medium.com/geekculture/convolutional-neural-networks-ab4b24d1f916">medium.com</a></figcaption>
+</figure>
+</div>
 <p>The weights <span class="math inline">\(w\)</span> consist of <span class="math inline">\(c_{out}\)</span> filters, each of which is a <span class="math inline">\(c_{in}\)</span>-dimensional vector field just like the input <span class="math inline">\(f\)</span>. To express the convolution we therefore need to sum over the channels <span class="math inline">\(j\)</span> of the input and the weights for each output channel <span class="math inline">\(i\)</span>. To extend this to multivector fields, we just replace the scalar product <span class="math inline">\(f^j(y) w^{i,j}(y-x)\)</span> with the geometric product of two multivectors <span class="math inline">\(\boldsymbol{f}\)</span> and <span class="math inline">\(\boldsymbol{w}\)</span>:</p>
 <p><span class="math display">\[
 \left[\boldsymbol{f} \star \boldsymbol{w}^{i}\right](x)=\sum_{y \in \mathbb{Z}^{2}} \sum_{j=1}^{c_{\text {in }}} \underbrace{\boldsymbol{f}^{j}(y) \boldsymbol{w}^{i, j}(y-x)}_{\boldsymbol{f}^{j} \boldsymbol{w}^{i, j}: G^{2} \times G^{2} \rightarrow G^{2}} .
