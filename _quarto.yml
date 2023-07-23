@@ -13,7 +13,3 @@ format:
   html:
     theme: simplex
     css: styles.css
-
-execute:
-  freeze: auto
-
