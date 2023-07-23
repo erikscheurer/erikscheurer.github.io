@@ -387,7 +387,7 @@ $$
 \left[f \star w^{i}\right](x)=\sum_{y \in \mathbb{Z}^{2}}\left\langle f(y), w^{i}(y-x)\right\rangle=\sum_{y \in \mathbb{Z}^{2}} \sum_{j=1}^{c_{\text {in }}} f^{j}(y) w^{i, j}(y-x)
 $$
 
-**Gif für einen channel einer convolution**
+![Source: [medium.com](https://medium.com/geekculture/convolutional-neural-networks-ab4b24d1f916)](https://miro.medium.com/v2/resize:fit:720/1*D6iRfzDkz-sEzyjYoVZ73w.gif){width=90% fig-align="center"}
 
 The weights $w$ consist of $c_{out}$ filters, each of which is a $c_{in}$-dimensional vector field just like the input $f$. To express the convolution we therefore need to sum over the channels $j$ of the input and the weights for each output channel $i$.
 To extend this to multivector fields, we just replace the scalar product $f^j(y) w^{i,j}(y-x)$ with the geometric product of two multivectors $\boldsymbol{f}$ and $\boldsymbol{w}$:
