@@ -1,0 +1,55 @@
+---
+title: "About Me"
+image: https://avatars.githubusercontent.com/u/84399192
+about:
+  template: trestles
+  links:
+    - icon: building-fill
+      text: University of Stuttgart, Germany
+      href: https://www.uni-stuttgart.de/en/
+    - icon: linkedin
+      text: LinkedIn
+      href: https://linkedin.com/in/erik-scheurer-942b02274
+    - icon: github
+      text: Github
+      href: https://github.com/erikscheurer
+
+---
+
+I am a student of [Simulation Technology](https://www.simtech.uni-stuttgart.de) at the University of Stuttgart. I am interested in deep learning, scientific computing, and all things related to the intersection of the two.
+
+
+Education
+======
+* B.Sc. in Simulation Technology, University of Stuttgart, 2022
+  * Bachelor Thesis: "An Optimization Approach to Attacking the Horn and Schunk Method"
+  * Supervisor: [Jenny Schmalfuss](https://www.vis.uni-stuttgart.de/en/institute/team/Schmalfuss/)
+* M.Sc. in Simulation Technology, University of Stuttgart, 2025 (expected)
+
+Work experience
+======
+* 2020-2023: Research Assistant
+  * Institute for Parallel and Distributed Systems, University of Stuttgart
+  * Duties included: Contributing to the development of [preCICE](precice.org) and its ecosystem
+  * Supervisor: [Ishaan Desai](https://de.linkedin.com/in/ishaandesai)
+
+* 2019-2020: Student Assistant
+  * University of Stuttgart
+  * Duties included: Supervision of exercises of "Fortgeschrittene Analysis für SimTech 2" and "Mathematische Programmierung für Lehramt"
+
+Publications
+======
+<!-- ---
+title: "Blind Image Inpainting with Sparse Directional Filter Dictionaries for Lightweight CNNs"
+collection: publications
+permalink: /publication/blind-image-inpainting-with-sparse-directional-filter-dictionaries-for-lightweight-cnns
+excerpt: 
+date: 2022-09-01
+venue: 'Journal of Mathematical Imaging and Vision'
+paperurl: 'https://link.springer.com/article/10.1007/s10851-022-01119-6'
+citation: 'Schmalfuss, J., Scheurer, E., Zhao, H. et al. Blind Image Inpainting with Sparse Directional Filter Dictionaries for Lightweight CNNs. J Math Imaging Vis 65, 323–339 (2023). https://doi.org/10.1007/s10851-022-01119-6'
+--- -->
+
+* [Blind Image Inpainting with Sparse Directional Filter Dictionaries for Lightweight CNNs](https://link.springer.com/article/10.1007/s10851-022-01119-6)
+  * Journal of Mathematical Imaging and Vision, 2022
+  * Jenny Schmalfuss, Erik Scheurer, Heng Zhao, Nikolaos Karantzas, Andrés Bruhn & Demetrio Labate

@@ -1,0 +1,18 @@
+project:
+  type: website
+
+website:
+  title: "Erik Scheurer"
+  navbar:
+    right:
+      - posts.qmd
+      - about.qmd
+      - icon: github
+        href: https://github.com/erikscheurer
+format:
+  html:
+    theme: simplex
+    css: styles.css
+
+
+
