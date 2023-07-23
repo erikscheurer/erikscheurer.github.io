@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "Erik Scheurer"
+  title: <img class="circular_image" src="https://avatars.githubusercontent.com/u/84399192" width="7%" height="7%" /> Blog
   navbar:
     right:
       - posts.qmd
