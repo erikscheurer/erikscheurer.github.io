@@ -12,16 +12,17 @@ toc: true
 
 ## Introduction
 
-Welcome to my blog post summarizing and explaining the paper _'Clifford Neural Layers for PDE Modeling'_ published at [ICLR 2023](https://iclr.cc/virtual/2023/poster/11825). Brandstetter _et al._ introduce new types of neural network layers based on the mathematical concept of Clifford algebras. These layers are able to model Partial Differential Equations (PDEs) better than current variants. As a student of Simulation Technology, I am very interested in the interplay of deep learning and numerical methods. This paper is a great example of how mathematical concepts can be used to improve deep learning methods by infusing knowledge about the underlying physics.
+Welcome to my blog post summarising and explaining the paper _'Clifford Neural Layers for PDE Modeling'_ published at [ICLR 2023](https://iclr.cc/virtual/2023/poster/11825). Brandstetter _et al._ introduce new types of neural network layers based on the mathematical concept of Clifford algebras. These layers are able to model Partial Differential Equations (PDEs) better than current variants. As a student of Simulation Technology, I am very interested in the interplay of deep learning and numerical methods. This paper is a great example of how mathematical concepts can be used to improve deep learning methods by infusing knowledge about the underlying physics.
 
 This post is also based on a [talk by the author](https://www.youtube.com/watch?v=VXziLgMIWf8) as well as [this](https://www.youtube.com/watch?v=60z_hpEAtD8) introduction to Clifford algebras.
 
 ## What is missing from current PDE modeling methods?
 
-> TLDR:
-> Current methods are either slow or do not take into account the physical relation between different components and inputs
+::: {.callout-note appearance="simple" collapse="true" title="TLDR"}
+Current methods are either slow or do not take into account the physical relation between different components and inputs
+:::
 
-To underline the motivation for the paper, we will first introduce the _Navier Stokes Equations_. These equations are used to model fluid flow and are a set of coupled _Partial Differential Equations_ (PDEs).
+To underline the motivation for the paper, we will first introduce the _Navier-Stokes Equations_. These equations are used to model fluid flow and are a set of coupled _Partial Differential Equations_ (PDEs).
 
 $$
   \frac{\partial v}{\partial t} = -\underbrace{v\cdot \nabla v}_\text{convection} + \underbrace{\mu \nabla^2v}_\text{viscosity}-\underbrace{\nabla p}_\text{internal pressure} + \underbrace{f}_\text{external force},\quad \underbrace{\nabla \cdot v = 0}_\text{incompressibility constraint}
@@ -33,11 +34,11 @@ $$
   v^{n+1} = v^n + \Delta t \left(-v^n \cdot \nabla v^n + \mu \nabla^2v^n - \nabla p^n + f^n\right)
 $$
 
-A finite difference approach is used to calculate the diffusion and convection parts of the equation and then take one time step with explicit euler. These numerical methods are well understood and arbitrarily accurate. Their pitfall, however, is the calcuation speed. For critical applications such as flood forecast or hurricane modelling it is advantageous to have a prediction as fast as possible to take early action. Recalculating the entire simulation for every new input of the ever changing weather conditions is not feasible.
+A finite difference approach is used to calculate the diffusion and convection parts of the equation and then take one time step with explicit Euler. These numerical methods are well understood and arbitrarily accurate. Their pitfall, however, is the calculation speed. For critical applications such as flood forecast or hurricane modeling, it is advantageous to have a prediction as fast as possible to take early action. Recalculating the entire simulation for every new input of the ever-changing weather conditions is not feasible.
 
-To alleviate the computation time, researchers became interested in _neural PDE surrogates_. The idea is to use deep learing techniques to train a Neural Network (NN) to solve the PDE for a fast inference time.
+To alleviate the computation time, researchers became interested in _neural PDE surrogates_. The idea is to use deep learning techniques to train a Neural Network (NN) to solve the PDE for a fast inference time.
 Such methods are for example the [PINN](https://www.sciencedirect.com/science/article/abs/pii/S0021999118307125) and [neural operators](https://arxiv.org/abs/2003.03485).
-But these methods also come with their downsides. PINNs are trained for one specific grid and specific boundary conditions suffering from a similar problem as finite difference schemes for many applications, while neural operators do not include information about the PDE itself. Neural operators only use data to encode the underlying physics disregarding the well researched physical models.
+But these methods also come with their downsides. PINNs are trained for one specific grid and specific boundary conditions suffering from a similar problem as finite difference schemes for many applications, while neural operators do not include information about the PDE itself. Neural operators only use data to encode the underlying physics disregarding the well-researched physical models.
 
 This paper improves on the previous methods by introducing a new NN layer that can differentiate between scalar, vector and bivector fields. In traditional NNs, a 2D vector field is interpreted as two scalar fields neglecting the strong connection between the two. For example for the Maxwell equations, the classical form has electric and magnetic fields both as vectors. Reformulating this in the language of Clifford algebra we get closer to the true physical form, defining the magnetic field as a bivector field aka. a rotation.
 
@@ -45,18 +46,19 @@ $$
   F = E + iB
 $$
 
-This $F$ is now a multivector describing the electromagnetic field. Classical methods do not have an expression for this multivector. As the new Clifford layers can calculate with the new multivectors, they are able to infuse the knowledge about the underlying physics into the NN.
+This $F$ is now a multivector describing the electromagnetic field. Classical methods do not have an expression for this multivector. As the new Clifford layers can calculate with the new multivectors, they can infuse the knowledge about the underlying physics into the NN.
 
 If you are not familiar with Clifford algebras, this might sound a bit abstract but the next section will hopefully give a bit of an intuitive understanding of the concepts.
 
 ## Clifford Algebras
 
-> TLDR:
-> Clifford algebras unify many parts of mathematical physics by introducing multivectors. Multivectors consist of e.g. oriented areas and volumes.
+::: {.callout-note appearance="simple" collapse="true" title="TLDR"}
+Clifford algebras unify many parts of mathematical physics by introducing multivectors. Multivectors consist of e.g. oriented areas and volumes.
+:::
 
-This section introduces the mathematical concept required to understand the theory of the new layers. The so called _Clifford algebra_ introduces _multivectors_. Multivectors are a generalization of vectors and scalars. They can contain information about oriented areas, volumes and other geometric primitives enabling computation using the _geometric product_.
+This section introduces the mathematical concept required to understand the theory of the new layers. The so-called _Clifford algebra_ introduces _multivectors_. Multivectors are a generalisation of vectors and scalars. They can contain information about oriented areas, volumes and other geometric primitives enabling computation using the _geometric product_.
 
-If you do not feel like diving in deep in to the mathematical theory, you can savely skip this part and go directly to the where we summarize the most important concepts of this section.
+If you do not feel like diving deep into the mathematical theory, you can safely skip this part and go directly to where we summarise the most important concepts of this section.
 
 For a visual introduction and an expression of how Clifford algebras make the language of math and physics simpler and more beautiful, also watch [this youtube video](https://www.youtube.com/watch?v=60z_hpEAtD8) which was a great inspiration for this part of the blog post.
 
@@ -71,7 +73,7 @@ The geometric product fills this gap by introducing an operator mapping two mult
 
 #### Vectors
 
-Next to scalars, vectors are the a geometric primitive most people are familiar with. They contain information about a direction and a magnitude aka a length.
+Next to scalars, vectors are a geometric primitive most people are familiar with. They contain information about a direction and a magnitude aka a length.
 A vector $v\in \mathbb{R}^n$ can be represented as a linear combination of basis vectors $\vec{e}_i$
 
 $$
@@ -80,9 +82,7 @@ $$
 
 For example $\vec{v}=(2,3) = 2\vec{e}_1 + 3\vec{e}_2$ in 2D:
 
-<p align="center">
-<img src="images/Basis_Vectors.png" width="300px">
-</p>
+![](images/Basis_Vectors.png){width="40%" fig-align="center"}
 
 What can we do with these vectors? We can add them, subtract them and multiply them with a scalar. This is all that is needed to form a vector space. The closest thing we have to a multiplication of two vectors for general $n$ is the dot product being defined on the spaces $\mathbb{R}^n \times \mathbb{R}^n \rightarrow \mathbb{R}$. We compute it by summing the products of the individual components:
 
@@ -94,9 +94,7 @@ $$
 
 Introducing a new geometric primitive, we will talk about _Bivectors_. These bivectors are an "oriented area". Just as vectors are an expression of a direction with their magnitude being their length, bivectors are an expression of an orientation with the magnitude being the area:
 
-<p align="center">
-<img src="images/Bivectors_intro.png" width="300px">
-</p>
+![](images/Bivectors_intro.png){width="50%" fig-align="center"}
 
 Both of the above are 2D bivectors, as the shape of the area is not part of the definition. A bivector only consists of an orientation and an area. You can imagine the difference between a line and a vector as similar to the difference between a plane and a bivector. A line is an object with shapes, curves and a length while a vector is not defined at a specific location in space but has a direction and a length.
 
@@ -104,9 +102,7 @@ Both of the above are 2D bivectors, as the shape of the area is not part of the 
 
 To calculate with bivectors, we first represent them in a basis. The basis in 3D consists of the areas spanned by the unit vectors i.e. $\vec{e}_1 \wedge \vec{e}_2$ and $\vec{e}_2 \wedge \vec{e}_3$ and $\vec{e}_3 \wedge \vec{e}_1$. This is called the _wedge_ or _outer_ product and we will see later what it represents in detail.
 
-<p align="center">
-<img src="images/Bivector_basis.png" width="300px">
-</p>
+![](images/Bivector_basis.png){width="40%" fig-align="center"}
 
 With this definition of a basis, we can now represent a bivector as a linear combination of the basis bivectors:
 
@@ -130,9 +126,7 @@ Multiplication with a scalar is also similar to vectors, instead of the length b
 
 We can now expand this concept further into _Trivectors_. Trivectors are oriented volumes and their magnitude is their volume. $k$-vectors are oriented $k$-dimensional volumes.
 
-<p align="center">
-<img src="images/Trivectors_intro.png" width="100px">
-</p>
+![](images/Trivectors_intro.png){width="17%" fig-align="center"}
 
 #### Multivectors
 
@@ -148,7 +142,7 @@ $$
   M = m_0 + m_1 \vec{e}_1 + m_2 \vec{e}_2 + m_3 \vec{e}_3 + m_4 \vec{e}_1\vec{e}_2 + m_5 \vec{e}_2\vec{e}_3 + m_6 \vec{e}_3\vec{e}_1 + m_7 \vec{e}_1\vec{e}_2\vec{e}_3
 $$
 
-Adding two multivectors is just adding their components in the respective basis. For multiplication we can use the _geometric product_.
+Adding two multivectors is just adding their components in the respective basis. For multiplication, we can use the _geometric product_.
 
 ### Geometric Product
 
@@ -170,9 +164,7 @@ $$
 
 Or represented graphically:
 
-<p align="center">
-<img src="images/Wedge_product.png" width="300px">
-</p>
+![](images/Wedge_product.png){width="50%" fig-align="center"}
 
 The direction in which the area is oriented is given by the order of the vectors. This means $\vec{a} \wedge \vec{b} = - \vec{a} \wedge \vec{b}$.
 
@@ -190,13 +182,13 @@ $$
 \end{aligned}
 $$
 
-We have found an expression of the geometric product between to vectors in terms of the dot product and the wedge product. By analysing the calculation we notice that the area spanned by $\vec{e}_1$ and $\vec{e}_1$ has no orientation as the vector is parallel to itself. We can therefore set the geometric product $\vec{e}_1 \vec{e}_1 = 1$. The same thing happens for $\vec{e}_2 \vec{e}_2 = 1$. This makes sense if we apply this new definition to our basis vectors:
+We have found an expression of the geometric product between two vectors in terms of the dot product and the wedge product. By analysing the calculation we notice that the area spanned by $\vec{e}_1$ and $\vec{e}_1$ has no orientation as the vector is parallel to itself. We can therefore set the geometric product $\vec{e}_1 \vec{e}_1 = 1$. The same thing happens for $\vec{e}_2 \vec{e}_2 = 1$. This makes sense if we apply this new definition to our basis vectors:
 
 $$
 \vec{e}_1 \vec{e}_1 = \vec{e}_1 \cdot \vec{e}_1 + \underbrace{\vec{e}_1 \wedge \vec{e}_1}_{=0} = \| \vec{e}_1 \|^2 = 1
 $$
 
-The fact that we add a scalar $\vec{a}\cdot\vec{b}$ to a bivector $\vec{a}\wedge\vec{b}$ might seem strange as we do not have to have an algebraic interpretation for this addition. However, if we work with complex numbers we do the exact same, we just add a real number to a complex number without letting them interact with one another. The same thing happens here. We add a scalar to a bivector.
+The fact that we add a scalar $\vec{a}\cdot\vec{b}$ to a bivector $\vec{a}\wedge\vec{b}$ might seem strange as we do not have to have an algebraic interpretation for this addition. However, if we work with complex numbers we do the same, we just add a real number to a complex number without letting them interact with one another. The same thing happens here. We add a scalar to a bivector.
 
 To compute an arbitrary geometric product of any multivector we can use the following algorithm:
 
@@ -204,9 +196,9 @@ To compute an arbitrary geometric product of any multivector we can use the foll
 2. Use the fact that $\vec{e}_i \vec{e}_i = 1$ and $\vec{e}_i \vec{e}_j = - \vec{e}_j \vec{e}_i$ to simplify the expression
 3. Collect the terms with the same basis elements
 
-<details>
+::: {.callout-tip collapse="true"}
 
-<summary>Other Examples and Additions</summary>
+## Other Examples and Additions
 1. The geometric product of two arbitrary multivectors $\vec{n}, \vec{m}$:
 
 $$
@@ -214,17 +206,17 @@ $$
 \vec{n} \vec{m}
 &= (n_0 + n_1 \;\vec{e}_1 + n_2 \; \vec{e}_2 + n_3 \; \vec{e}_1\vec{e}_2)(m_0 + m_1 \;\vec{e}_1 + m_2 \; \vec{e}_2 + m_3 \; \vec{e}_1\vec{e}_2)\\
 &= n_0 m_0 + n_0 m_1 \;\vec{e}_1 + n_0 m_2 \; \vec{e}_2 + n_0 m_3 \; \vec{e}_1\vec{e}_2 \\
-&+ n_1 m_0 \;\vec{e}_1 + n_1 m_1 \;\vec{e}_1\vec{e}_1 + n_1 m_2 \; \vec{e}_1\vec{e}_2 + n_1 m_3 \; \vec{e}_1\vec{e}_1\vec{e}_2 \\
-&+ n_2 m_0 \; \vec{e}_2 + n_2 m_1 \; \vec{e}_2\vec{e}_1 + n_2 m_2 \; \vec{e}_2\vec{e}_2 + n_2 m_3 \; \vec{e}_2\vec{e}_1\vec{e}_2 \\
-&+ n_3 m_0 \; \vec{e}_1\vec{e}_2 + n_3 m_1 \; \vec{e}_1\vec{e}_1\vec{e}_2 + n_3 m_2 \; \vec{e}_1\vec{e}_2\vec{e}_2 + n_3 m_3 \; \vec{e}_1\vec{e}_2\vec{e}_1\vec{e}_2 \\
+& \quad + n_1 m_0 \;\vec{e}_1 + n_1 m_1 \;\vec{e}_1\vec{e}_1 + n_1 m_2 \; \vec{e}_1\vec{e}_2 + n_1 m_3 \; \vec{e}_1\vec{e}_1\vec{e}_2 \\
+& \quad + n_2 m_0 \; \vec{e}_2 + n_2 m_1 \; \vec{e}_2\vec{e}_1 + n_2 m_2 \; \vec{e}_2\vec{e}_2 + n_2 m_3 \; \vec{e}_2\vec{e}_1\vec{e}_2 \\
+& \quad + n_3 m_0 \; \vec{e}_1\vec{e}_2 + n_3 m_1 \; \vec{e}_1\vec{e}_1\vec{e}_2 + n_3 m_2 \; \vec{e}_1\vec{e}_2\vec{e}_2 + n_3 m_3 \; \vec{e}_1\vec{e}_2\vec{e}_1\vec{e}_2 \\
 &= n_0 m_0 + n_0 m_1 \;\vec{e}_1 + n_0 m_2 \; \vec{e}_2 + n_0 m_3 \; \vec{e}_1\vec{e}_2 \\
-&+ n_1 m_0 \;\vec{e}_1 + n_1 m_1 \; 1 + n_1 m_2 \; \vec{e}_1\vec{e}_2 + n_1 m_3 \; \vec{e}_2 \\
-&+ n_2 m_0 \; \vec{e}_2 - n_2 m_1 \; \vec{e}_1\vec{e}_2 + n_2 m_2 \; 1 - n_2 m_3 \; \vec{e}_1\\
-&+ n_3 m_0 \; \vec{e}_1\vec{e}_2 - n_3 m_1 \; \vec{e}_1\vec{e}_2 + n_3 m_2 \; \vec{e}_1 - n_3 m_3 \; 1 \\
+& \quad + n_1 m_0 \;\vec{e}_1 + n_1 m_1 \; 1 + n_1 m_2 \; \vec{e}_1\vec{e}_2 + n_1 m_3 \; \vec{e}_2 \\
+& \quad + n_2 m_0 \; \vec{e}_2 - n_2 m_1 \; \vec{e}_1\vec{e}_2 + n_2 m_2 \; 1 - n_2 m_3 \; \vec{e}_1\\
+& \quad + n_3 m_0 \; \vec{e}_1\vec{e}_2 - n_3 m_1 \; \vec{e}_1\vec{e}_2 + n_3 m_2 \; \vec{e}_1 - n_3 m_3 \; 1 \\
 &= (n_0 m_0 + n_1 m_1 + n_2 m_2 + n_3 m_3) \\
-&+ (n_0 m_1 + n_1 m_0 - n_2 m_3 + n_3 m_2) \; \vec{e}_1 \\
-&+ (n_0 m_2 + n_1 m_3 + n_2 m_0 - n_3 m_1) \; \vec{e}_2 \\
-&+ (n_0 m_3 - n_1 m_2 + n_2 m_1 + n_3 m_0) \; \vec{e}_1\vec{e}_2 \\
+& \quad + (n_0 m_1 + n_1 m_0 - n_2 m_3 + n_3 m_2) \; \vec{e}_1 \\
+& \quad + (n_0 m_2 + n_1 m_3 + n_2 m_0 - n_3 m_1) \; \vec{e}_2 \\
+& \quad + (n_0 m_3 - n_1 m_2 + n_2 m_1 + n_3 m_0) \; \vec{e}_1\vec{e}_2 \\
 \end{aligned}
 $$
 
@@ -232,7 +224,7 @@ $$
    $$
    \vec{a} \vec{a} = \vec{a} \cdot \vec{a} + \vec{a} \wedge \vec{a} = \vec{a} \cdot \vec{a} = ||\vec{a}||^2
    $$
-   reveiling the inverse of a vector regarding the geometric product: $\vec{a}^{-1} = \frac{\vec{a}}{||\vec{a}||^2}$ because $\vec{a} \vec{a}^{-1} = \vec{a} \frac{\vec{a}}{||\vec{a}||^2} = \frac{\vec{a} \vec{a}}{||\vec{a}||^2} = \frac{||\vec{a}||^2}{||\vec{a}||^2} = 1$
+   revealing the inverse of a vector regarding the geometric product: $\vec{a}^{-1} = \frac{\vec{a}}{||\vec{a}||^2}$ because $\vec{a} \vec{a}^{-1} = \vec{a} \frac{\vec{a}}{||\vec{a}||^2} = \frac{\vec{a} \vec{a}}{||\vec{a}||^2} = \frac{||\vec{a}||^2}{||\vec{a}||^2} = 1$
 3. Because the outer product is not commutative, we have to be careful with the order of the vectors in the geometric product.
 
    $$
@@ -262,7 +254,7 @@ $$
                    &= \vec{a} \cdot \vec{b} + \vec{a} \wedge \vec{b}
    \end{aligned}
    $$
-5. Sidenote: compare outer product to cross product:
+5. Sidenote: compare the outer product to the cross product:
    $$
    \begin{aligned}
    \vec{a} \wedge \vec{b} &= (a_1 b_2 - a_2 b_1) \vec{e}_1 \vec{e}_2 + (a_1 b_3 - a_3 b_1) \vec{e}_1 \vec{e}_3 + (a_2 b_3 - a_3 b_2) \vec{e}_2 \vec{e}_3 \\
@@ -270,16 +262,16 @@ $$
    \end{aligned}
    $$
 
-</details>
+:::
 
 ### Pseudoscalars
 
-The last concept to fully understand the paper (which we will come back to, I promise) are pseudoscalars.
-In 2D a multivectors only has one bivector component unlike in 3D where the multivector is composed of three bivectors. This means that the bivector part in 3D also has an orientation.
+The last concept to fully understand the paper (which we will come back to, I promise) is that of pseudoscalars.
+In 2D a multivector only has one bivector component unlike in 3D where the multivector is composed of three bivectors. This means that the bivector part in 3D also has an orientation.
 You can imagine this as with vectors stepping from 1D to 2D. In 1D a multivector only consists of a single number. In 2D there is now an orientation in space represented by two vector components. Same thing for the step to 3D. In 3D there is now an orientation of an area in 3D space whereas in 2D a bivector could only lie in the 2D plane.
 We name the primitive that only consists of one component a pseudoscalar.
 
-To make it more clear, lets give the unit pseudoscalar a name: $\vec{e}_1 \vec{e}_2 =: i$. Do you see the connection to complex numbers? Let's multiply $i$ with itself:
+To make it more clear, let's give the unit pseudoscalar a name: $\vec{e}_1 \vec{e}_2 =: i$. Do you see the connection to complex numbers? Let's multiply $i$ with itself:
 
 $$
 \begin{aligned}
@@ -290,35 +282,35 @@ i^2 &= (\vec{e}_1 \vec{e}_2) (\vec{e}_1 \vec{e}_2) \\
 \end{aligned}
 $$
 
-Computing the geometric product between an vector and the pseudoscalar $i$ rotates the vector by 90 degrees in space.
-The connection to complex numbers therefore becomes clearer: The complex number $1$ is the unit scalar. Then $1\cdot i$ is rotated by 90 degrees in the complex plane and just the imaginary unit $i$.
+Computing the geometric product between a vector and the pseudoscalar $i$ rotates the vector by 90 degrees in space.
+The connection to complex numbers, therefore becomes clearer: The complex number $1$ is the unit scalar. Then $1\cdot i$ is rotated by 90 degrees in the complex plane and just the imaginary unit $i$.
 
-In deed, the geometric algebra in 2D is isomorphic to the complex numbers.
+Indeed, the geometric algebra in 2D is isomorphic to the complex numbers.
 The same can be done for 3D, where the unit pseudoscalar is $\vec{e}_1 \vec{e}_2 \vec{e}_3 =: i$.
 In 3D the geometric algebra is isomorphic to the _[quaternions](https://en.wikipedia.org/wiki/Quaternion "Wikipedia: Quaternions")_ which are basically complex numbers with three imaginary units. Quaternions are often used in computer graphics to represent rotations. The paper also makes use of this fact to create _Roational Clifford CNN layers_.
 
-<details>
-<summary> Connection to the cross prodcuct </summary>
+::: {.callout-tip collapse="true"}
+## Connection to the cross product
 
 If we calculate the product of a vector and $i$ in 3D, it is always a bivector:
 $$ \vec{e}_1i = \vec{e}_1 \vec{e}_1\vec{e}_2\vec{e}_3 = \vec{e}_2\vec{e}_3$$
-This bivector follows the right hand rule discussed earlier. If the thumb is put in direction of $\vec{e}_1$ the other fingers point in the direction of the bivector spanned by $\vec{e}_2$ and $\vec{e}_3$.
+This bivector follows the right-hand rule discussed earlier. If the thumb points in the direction of $\vec{e}_1$ the other fingers point in the direction of the bivector spanned by $\vec{e}_2$ and $\vec{e}_3$.
 As this holds for any vector, bivectors can be represented by their normal vectors in 3D. In fact:
       $$
       \vec{a} \wedge \vec{b} = i (\vec{a} \times \vec{b})
       $$
-Now we dont need cross product anymore!
+Now we don't need cross-product anymore!
 One nice example is Torque $N$:
 $$\vec{N} = \vec{r} \times \vec{F}$$
 Here the torque is a vector pointing in the direction of the axis of rotation. However, if we replace this with the outer product
 $$\vec{N} = \vec{r} \wedge \vec{F}$$
  we get a bivector. This bivector is a rotation object that rotates the vector $\vec{r}$ into the direction of $\vec{F}$ which to me is a much more intuitive way to thinking about torque.
 
-</details>
+:::
 
 ### Summary of Clifford Algebra
 
-We have now introduced the different geometric primitives being scalars, vectors, bivectors, trivectors and so on. An object in the Clifford algebra is called a multivector. A multivector is a sum of different geometric primitives.
+We have now introduced the different geometric primitives scalars, vectors, bivectors, trivectors and so on. An object in the Clifford algebra is called a multivector. A multivector is a sum of different geometric primitives.
 
 To calculate the geometric product between two multivectors we use the distributive law and the geometric product between the different unit primitives.
 
@@ -329,68 +321,67 @@ The main takeaway from this section is that we now have objects that can represe
 
 ## [Fourier Neural Operators](https://arxiv.org/pdf/2010.08895.pdf)
 
-> TLDR:
-> Fourier Neural operators are a efficient way to learn operators. They map one functional spaces to a solution function space.
+::: {.callout-note appearance="simple" collapse="true" title="TLDR"}
+Fourier Neural operators are an efficient way to learn operators. They map one function space to a solution function space.
+:::
 
-We have now introduced the Clifford algebra and turn towards machine learning. The paper utilizes different types of network architectures, notably the _Fourier Neural Operator_ which needs further explanation. We split this into two parts: First we will discuss the _Neural Operator_ and then the _Fourier Neural Operator_ as an extension of the former.
+We have now introduced the Clifford algebra and turn towards machine learning. The paper utilises different types of network architectures, notably the _Fourier Neural Operator_ which needs further explanation. We split this into two parts: First, we will discuss the _Neural Operator_ and then the _Fourier Neural Operator_ as an extension of the former.
 
 ### Neural Operators
 
-Neural Operators are a type of neural architecture that can be used to solve partial differential equations (PDEs). These models learn to approximate operators instead of functions, which is very helpful for PDEs as they are often defined by operators.
+Neural Operators are a type of neural architecture that can be used to solve partial differential equations (PDEs). These models learn to approximate operators instead of functions, which is very helpful for PDEs.
 
-One PDE would be the laplacian operator that is used e.g. in the Poisson partial differential equation.
+One such use case would be the Laplacian operator that is used e.g. in the Poisson partial differential equation.
 
 $$
 \Delta u = f
 $$
 
-All PDEs can be expressed using the Green's function $G$. In this case this would be:
+All PDEs can be expressed using Green's function $G$. In this case, this would be:
 
 $$
 u(x) = \int G(x, y) f(y) dy \text{ with } \Delta G(x, y) = \delta(x - y)
 $$
 
-For the laplace problem this Greens Function is (see [on wikipedia](https://en.wikipedia.org/wiki/Green's_function#Table_of_Green's_functions))
+For the Laplace problem, this Green's Function is (see [on wikipedia](https://en.wikipedia.org/wiki/Green's_function#Table_of_Green's_functions))
 
 $$
 G(x, y) = \frac{1}{2\pi} \ln\|x - y\|_2
 $$
 
-The Green's function has to be continuous. As we know, neural networks are universal approximators, therefore a network is able to approximate the Green's function. This is the idea behind neural operators.
+The Green's function has to be continuous. As we know, neural networks are universal approximators, therefore a network can approximate the Green's function. This is the idea behind neural operators.
 
 Advantages:
 
-- The neural operator can be applied to any function $f$ and any mesh $x$.
-- It only needs to be trained once for a PDE and then takes the different boundary and initial conditions as input to output a solution. This is in contrast to the finite element method, where the mesh needs to be refined for every slightly different input.
+- The neural operator can be applied to any right-hand side $f$ and any mesh $x$.
+- The operator only needs to be trained once for a PDE and then takes the different initial conditions as input to output a problem-specific solution. This is in contrast to the finite element method, where the mesh needs to be refined for every slight change in the problem.
 - Neural operators only require data to learn a PDE, with no knowledge of the underlying mathematics.
 
-Problem so far:
+The problem so far:
 
-The integral in the above equation is expensive to evaluate. The idea of Fourier neural operators is to transform this expression into a convolution in the Fourier domain, where it becomes a simple point-wise multiplication and thereby much faster to evaluate.
+The integral in the above equation is expensive to evaluate. Fourier neural operators transform this expression into a convolution in the Fourier domain, where it becomes a simple point-wise multiplication and thereby much faster to evaluate.
 
 ### Fourier Neural operators
 
-Putting the theory of neural operators behind, Fourier neural operators are a type of neural operator that uses the Fourier transform to speed up the evaluation of the integral. In practice, we create a neural network that takes in the initial and boundary conditions and outputs the solution to the PDE or the next time step of the PDE. One layer of the network takes in a signal, applies a Fourier transform, linearly transforms it using learned weights and then reverts back to the signal domain. Two more things are important: High frequencies are discarded before transforming back and also a residual connection is added. The architecture is shown below.
+Putting the theory of neural operators behind us, Fourier neural operators are a type of neural operator that uses the Fourier transform to speed up the evaluation of the integral. In practice, we create a neural network that takes in the initial conditions and outputs the solution or the next time step of the PDE. One layer of the network takes in a signal, applies a Fourier transform, linearly transforms it using learned weights and then reverts back to the signal domain. Two more things are important: High frequencies are discarded before transforming back and also a residual connection is added. The architecture is shown below.
 
-<p align="center">
-<img src="images/fourier_operator.png" width="400">
-</p>
+![](images/fourier_operator.png){width="80%" fig-align="center"}
 
-Now to the main motivation of this paper: The authors argue that the linear transformation does not take into account the connection between different vector components. The structure is destroyed. Imagine $f$ consisting of two quantities, pressure $p$ and velocity $\vec{v}$. The linear transformation would not take into account that the pressure is scalar whereas the velocity is a vector. In a traditional neural network, the $p$, $v_x$ and $v_y$ would be different channels of the input $f$ ignoring the connection between the latter two. The authors therefore introduce a new type of layer that preserves this structure.
+Now to the main motivation of this paper: The authors argue that the linear transformation does not take into account the connection between different vector components. The structure is destroyed. Imagine $f$ consisting of two quantities, pressure $p$ and velocity $\vec{v}$ as for simple weather models. The linear transformation would not take into account that the pressure is scalar whereas the velocity is a vector. In a traditional neural network, the $p$, $v_x$ and $v_y$ would be three different channels of the input $f$ ignoring the strong coupling between the two vector components. For this reason, the authors introduce a new type of layer that preserves this structure.
 
 ## Clifford Neural Layers
 
-Just as with complex neural networks, the idea of Clifford neural networks is simple as long as the foundational mathematics is well understood: Replace the numbers in a neural network with multivectors and use the geometric product instead of the product of two scalars.
-For complex numbers this has already been done by [Trabesi _et al_](https://arxiv.org/abs/1705.09792) replacing the real convolution of a convolutional neural network (CNN) with a complex counterpart.
+Just as with complex neural networks, the idea of Clifford neural networks is simple as long as the foundational mathematics is well understood: Replace the scalars in a neural network with multivectors and use the geometric product instead of the product of two scalars.
+For complex numbers, this has already been done by [Trabesi _et al_.](https://arxiv.org/abs/1705.09792) replacing the real convolution of a convolutional neural network with a complex counterpart.
 
-In the following we go through the different newly introduced layers and explain their background.
+In the following, we go through the different newly introduced layers and explain their background.
 
 ### Clifford CNN layers
+::: {.callout-note appearance="simple" collapse="true" title="TLDR"}
+Clifford CNN Layers replace the pixel-wise multiplication of the convolution by a geometric product on multivectors.
+:::
 
-> TLDR:
-> Clifford CNN Layers replace the pixelwise multiplication of the convolution by a geometric product on multivectors.
-
-In a traditional CNNs, the input $f$ is convolved with the weights $w$:
+In a traditional CNN, the input $f$ is convolved with weights $w$:
 
 $$
 \left[f \star w^{i}\right](x)=\sum_{y \in \mathbb{Z}^{2}}\left\langle f(y), w^{i}(y-x)\right\rangle=\sum_{y \in \mathbb{Z}^{2}} \sum_{j=1}^{c_{\text {in }}} f^{j}(y) w^{i, j}(y-x)
@@ -405,17 +396,16 @@ $$
 \left[\boldsymbol{f} \star \boldsymbol{w}^{i}\right](x)=\sum_{y \in \mathbb{Z}^{2}} \sum_{j=1}^{c_{\text {in }}} \underbrace{\boldsymbol{f}^{j}(y) \boldsymbol{w}^{i, j}(y-x)}_{\boldsymbol{f}^{j} \boldsymbol{w}^{i, j}: G^{2} \times G^{2} \rightarrow G^{2}} .
 $$
 
-To be more specific, $\boldsymbol{f}$ and $\boldsymbol{w}$ are vectors in $G$ which is not the Clifford algebra, but the real vector containing the coefficients of the multivector fields. The multiplication of these two vectors is the geometric product realized with the basis defined by the Clifford algebra. We then again get a vector field as output which are the coefficients of a multivector field with $c_{out}$ channels.
-
-<!-- The geometric product is computed as described before, using the precedure of using the fact that $\vec{e}_i \vec{e}_j = -\vec{e}_j \vec{e}_i$ if $i \neq j$ and $\vec{e}_i \vec{e}_i = 1$ and grouping the terms by grade. -->
+To be more specific, $\boldsymbol{f}$ and $\boldsymbol{w}$ are vectors in $G$ which is not the Clifford algebra, but the real vector containing the coefficients of the multivector fields. The multiplication of these two vectors is the geometric product implemented with the basis defined by the Clifford algebra. The output is again a vector which are the coefficients of a multivector field with $c_{out}$ channels.
 
 ### Rotational Clifford CNN layers
 
-> TLDR:
-> Rotational Clifford CNN layers make use of quaternions to replace the geometric product with a matrix-vector multiplication.
+::: {.callout-note appearance="simple" collapse="true" title="TLDR"}
+Rotational Clifford CNN layers make use of quaternions to replace the geometric product with a matrix-vector multiplication.
+:::
 
-Rotational Clifford CNN layers are an alternative parametrization to the above. I mentioned that the 3D Clifford algebra $Cl_{0,2}$ is isomorph to the quaternions where rotations can be realized using a matrix multiplication.
-Instead of using the geometric product, we can modify the input using rotations
+Rotational Clifford CNN layers are an alternative parametrisation to the above. I mentioned that the 3D Clifford algebra $Cl_{0,2}$ is isomorph to the quaternions where rotations can be realised using a matrix multiplication.
+Instead of using the geometric product, we can modify the input using rotations.
 
 $$
 \begin{aligned}
@@ -430,14 +420,15 @@ $$
 
 ### Clifford Fourier Layers
 
-> TLDR:
-> A normal Fourier layer is modified to receive multivector input by splitting the multivectors into two complex parts on which a Fourier transform can be calculated independently.
+::: {.callout-note appearance="simple" collapse="true" title="TLDR"}
+A normal Fourier layer is modified to receive multivector input by splitting the multivectors into two complex parts on which a Fourier transform can be calculated independently.
+:::
 
-The last layer type the authors introduce are Clifford Fourier layers. These differ a bit in understanding from the Clifford CNN layers because they do not make use Fourier transform defined directly for Clifford algebras. Instead, multivector is split into two complex parts on which a Fourier transform can be calculated independently.
+The last layer type the authors introduce is the Clifford Fourier layer. These differ a bit in understanding from the Clifford CNN layers because there is no Fourier transform defined for Clifford algebras. Instead, the multivector is split into two complex parts on which a Fourier transform can be calculated independently.
 
 #### Fourier Transform for Multivectors
 
-In formulas, the Fourier transformation is imitated over multivectorfields in 2D in these two parts:
+In formulas, the Fourier transformation is imitated over multivector-fields in 2D in these two parts:
 
 $$
 \begin{aligned}
@@ -446,13 +437,13 @@ $$
   \end{aligned}
 $$
 
-Remember: The pseudoscalar $i$ is the highest grade primitive, e.g. in 2D the bivector and in 3D the trivector. Multiplying a vector with the pseudoscalar is realized as follows
+Remember: The pseudoscalar $i$ is the highest grade primitive, e.g. in 2D the bivector and in 3D the trivector. Multiplying a vector with the pseudoscalar is realised as follows
 
 $$
 e_1*i = e_1 * e_{12} = e_1e_1e_2 = e_2,
 $$
 
-which explains how the vector part can be multiplied out to get the original vector
+which explains how the vector part can be factored out to get the original vector
 
 With these two parts which can both be interpreted as complex numbers, we can compute a complex Fourier transform.
 
@@ -463,52 +454,50 @@ $$
 \end{aligned}
 $$
 
-Here you can see that the Fourier transformed vector $\hat{\boldsymbol{f}}$ is again a multivector as the second part is again multiplied with $e_i$.
+Here you can see that the Fourier transformed vector $\hat{\boldsymbol{f}}$ is again a multivector as the second part is multiplied with $e_i$.
 
 #### Clifford Fourier Neural Operator Layer
 
-<p align="center">
-  <img src="images/CFNO_arch.png" width="400" />
-</p>
 
-For one Fourier neural operator layer, the input is transferred to Fourier space, then the spectrum is multiplied with learned multivector weights and put through a nonlinear activation function. Afterwards an inverse Fourier transform transfers the output back to Fourier space.
+![](images/CFNO_arch.png){width="80%" fig-align="center" }
 
 With the above definition of the Fourier transform for multivector fields, we can now define a Clifford Fourier neural operator layer.
-The layer therefore consists of these steps:
+The layer consists of these steps:
 
 1. Input signal $f(x)$ gets split into spinor $s(x)$ and vector $v(x)$ parts
-2. Fourier transform spinor and vector parts independently
-3. Matrix multiplicaton of weights with transformed spinor and vector parts
+2. Fourier transform of spinor and vector parts independently
+3. Matrix multiplication of _learned_ multivector weights
 4. Inverse Fourier transform
 5. Recombine spinor and vector parts
 
 Like in normal Fourier neural operators, frequencies above a cut-off frequency are zero.
 
-For 3D we can analogously construct four separate Fourier transforms that can be combined to emulate a Fourier transform in the 3D multivector space
+For 3D we can analogously construct four separate Fourier transforms that can be combined to emulate a Fourier transform in the 3D multivector space.
 
 ## Applications
 
-Clifford layers are very versitile as they can be a used as drop-in replacement for normal layers. This makes application in a wide range of use-cases possible. The authors test the Clifford layers in three different contexts:
+Clifford layers are very versatile as they can be used as a drop-in replacement for normal layers. This makes application in a wide range of use cases possible. The authors test the Clifford layers in three different contexts:
 
-1. The **Navier Stokes equations** in 2D
+1. The **Navier-Stokes equations** in 2D
 2. The **shallow water equations** for weather prediction
 3. The **Maxwell equations** for electromagnetic fields
 
-For each application, a ResNet architecture as well as a Fourier neural operator is trained and compared to their respective Clifford counterparts. The architectures of each network are modified to adjust for the different number of parameters. The Clifford layers have more parameters by default.
-In all examples a pseudo ground truth is used calculated by a traditional simulation.
+For each application, a ResNet architecture, and a Fourier neural operator is trained and compared to their respective Clifford counterparts. The architectures of each network are modified to adjust for the different number of parameters. The Clifford layers have more parameters by default.
+In all examples, a pseudo ground truth is used to calculate by a traditional simulation.
 
-### 2D Incompressible Navier Stokes
+### 2D Navier-Stokes
 
-> TLDR:
-> Clifford layers can be used to simulate fluid dynamics with higher accuracy than normal layers.
+::: {.callout-note appearance="simple" collapse="true" title="TLDR"}
+Clifford layers can be used to simulate fluid dynamics with higher accuracy than normal layers.
+:::
 
-Going back to the previously introduced 2D incompressible Navier stokes equations, we can now use the Clifford layers to simulate fluid dynamics. The equations are repeated here for convenience:
+Going back to the previously introduced 2D Navier-Stokes equations, we can now use the Clifford layers to simulate fluid dynamics. The equations are repeated here for convenience:
 
 $$
-\frac{\partial v}{\partial t} = -\underbrace{v\cdot \nabla v}_\text{convection} + \underbrace{\mu \nabla^2v}_\text{viscosity}-\underbrace{\nabla p}_\text{internal pressure} + \underbrace{f}_\text{external force},\quad \underbrace{\nabla \cdot v = 0}_\text{incompressibility constraint}
+\frac{\partial v}{\partial t} = -\underbrace{v\cdot \nabla v}_\text{convection} + \underbrace{\mu \nabla^2v}_\text{viscosity}-\underbrace{\nabla p}_\text{internal pressure} + \underbrace{f}_\text{external force}
 $$
 
-The incompressibility constraint yields mass conservation. $f$ is in our case a buoyancy force. They introduce a new scalar that is transported through the velocity field, one real world example would be smoke concentration $s(x)$ in a room that is transported by air. This advection is described by
+$f$ is in our case a buoyancy force. They introduce a new scalar that is transported through the velocity field, one real world example would be smoke concentration $s(x)$ in a room that is transported by air. This advection is described by
 $$ \frac{ds}{dt}=-v\cdot\nabla s$$
 The scalar field only acts on the velocity through the scalar external force i.e. the buoyancy force in our case.
 
@@ -516,37 +505,38 @@ The scalar field only acts on the velocity through the scalar external force i.e
 
 ##### PDE Details
 
-To obtain the training data the PDEs are discretized on a 2D grid as well as in time and solve using a traditional solver.
-In this case a grid with resolution of $\Delta x=\Delta y = 0.25$, and a temporal resolution of $\Delta t=1.5s$ is used.
-Homogeneous Dirichlet boundary conditions for the velocity ($v=0$ at the boundary) are applied. In our example this would mean that we are in a closed room.
-Homogenious Neumann boundaries $\frac{\partial s}{\partial x}=0$ for the scalar smoke field are used, which in turn means that the smoke does not leave the room or diffuse through the walls.
-The scalar field is initialized with gaussian noise fluctuations and the velocity field is initialized with a zero field. The noisy initialization leads to movement of the smoke field which is transported by the velocity field.
+To obtain the training data the PDEs are discretised on a 2D grid as well as in time and solved using a traditional solver.
+In this case, a grid with a resolution of $\Delta x=\Delta y = 0.25$, and a temporal resolution of $\Delta t=1.5s$ is used.
+Homogeneous Dirichlet boundary conditions for the velocity ($v=0$ at the boundary) are applied. In our example, this would mean that we are in a closed room.
+Homogeneous Neumann boundaries $\frac{\partial s}{\partial x}=0$ for the scalar smoke field are used, which in turn means that the smoke does not leave the room or diffuse through the walls.
+The scalar field is initialised with Gaussian noise fluctuations and the velocity field as a zero field. The noisy initialisation leads to movement of the smoke field which is transported by the velocity field.
 
 ##### Training Details
 
-The unknowns of the problem are combined into a single multivector. This means, the velocity field is combined with the smoke concentration into a multivector in each grid point.
+The unknowns of the problem are combined into a single multivector. This means that the velocity field is combined with the smoke concentration into a multivector in each grid point.
 The loss is chosen as the summed Mean Squared Error (SMSE) which is defined as the sum of the MSE over all grid points for all fields and all time steps:
 
 $$
 \text{SMSE} = \sum_{t=1}^T \sum_{x\in \text{grid}} \sum_{i=1}^2 \left( v_i(x,t) - \hat{v}_i(x,t) \right)^2 + \sum_{t=1}^T \sum_{x\in \text{grid}} \left( s(x,t) - \hat{s}(x,t) \right)^2
 $$
 
-The models are trained with Adam optimizer for 50 epochs with a cosine annealing learning rate schedule. This took between 3h and 48h depending on the task. Clifford architectures took on average twice as long to train for equivalent models.
+The models are trained with Adam optimiser for 50 epochs with a cosine annealing learning rate schedule. This took between 3h and 48h depending on the task. Clifford architectures took on average twice as long to train for equivalent models.
 
 #### Results
 
-The results can be summarized as improvements accross the board for Clifford models.
+The results can be summarised as improvements across the board for Clifford models.
 
-<p align="center"> <img src="images/Results_plot_navierStokes.png" alt="Results_plot_navierStokes" width="500"/>  </p>
+![](images/Results_plot_navierStokes.png){width="100%" fig-align="center"}
 
-In this figure, the MSE for either one step (bottom) or the whole time series (Rollout, top) is shown. For the ResNet (left) models, two variants are depicted, one with Clifford CNN layers (yellow) and one with rotational CNN layers (orange). The number of trajectories is the number of training points and is increasing von right to left.
-The Clifford models outperform the unmodified models in all cases. With an increase in training points, the the Clifford variants are still better than the unmodified models, meaning that the accuracy normal models is not only preserved but also improved by the Clifford layers. They also mention that increasing the complexity of the model did not improve their performance.
+In this figure, the MSE for either the first time step (bottom) or the whole time series (Rollout, top) is shown. For the ResNet (left) models, two variants are depicted, one with Clifford CNN layers (yellow) and one with rotational CNN layers (orange). The number of trajectories is the number of training points and is increasing von right to left.
+The Clifford models outperform the unmodified models in all cases. With an increase in training points, the Clifford variants are still better than the unmodified models, meaning that the accuracy normal of models is not only preserved but also improved using multivectors and the geometric product. They also mention that increasing the complexity of the models did not improve their performance.
 
-Notably the rotational Clifford CNNs perform better than the Clifford CNNs even though they have are equivalent in capability.
+Notably, the rotational Clifford CNNs perform better than the Clifford CNNs even though they are equivalent in capability.
 
 ### Shallow Water Equations for Weather Prediction
 
-Improving the accuracy of weather forcasts is a particularly important task as it can save lives. The shallow water equations are derived from the Navier Stokes equations and are used for weather prediction.
+Improving the accuracy of weather forecasts is a particularly important task as it often has a direct impact on people's lives.
+The shallow water equations are derived from the Navier-Stokes equations and are used for weather prediction.
 We have again multiple unknowns that are combined into a multivector. The unknowns are the velocity field $v$ and the pressure field $p$ of this PDE system:
 
 $$
@@ -557,15 +547,15 @@ $$
 \end{aligned}
 $$
 
-Here, $v_x$ and $v_y$ are the x and y components of the fluid velocity, $g$ the gravitational acceleration and $\eta$ the vertical displacement of the fluid surface (at the top). $h$ is the topography of the earth surface.
+Here, $v_x$ and $v_y$ are the $x$ and $y$ components of the fluid velocity, $g$ the gravitational acceleration and $\eta$ the vertical displacement of the fluid surface (at the top). $h$ is the topography of the earth's surface.
 The authors generate the dataset with [SpeedyWeather.jl](https://github.com/SpeedyWeather/SpeedyWeather.jl) and train the same models as in the previous example.
-The results are similar to the previous example, the rotational Clifford models outperform the unmodified models. However, the Clifford CNNs in ResNet architectures perform worse than the unmodified models for small number of trajectories. This is attributed to the fact that the ResNet architecture may not be complex enough for the task. This can be seen as the Fourier neural operators need only a fraction of the trajectories that the ResNet architectures need to reach the same accuracy.
+The results are similar to the previous example, the rotational Clifford models outperform the unmodified models. However, the Clifford CNNs in ResNet architectures perform worse than the unmodified models for a small number of trajectories. This is attributed to the fact that the ResNet architecture may not be complex enough for the task. This can be seen as the Fourier neural operators need only a fraction of the trajectories that the ResNet architectures need to reach the same accuracy.
 
-<p align="center"> <img src="images/Results_plot_shallowWater.png" alt="Results_plot_shallowWater" width="500"/>  </p>
+![](images/Results_plot_shallowWater.png){width="100%" fig-align="center"}
 
 ### Maxwell Equations for Electromagnetism
 
-Maxwells equations express the relationship between electric and magnetic fields. They are given by
+Maxwell's equations express the relationship between electric and magnetic fields. They are given by
 
 $$
 \begin{aligned}
@@ -576,25 +566,23 @@ $$
 \end{aligned}
 $$
 
-In these equations, $D$ is the electric displacement field, $B$ is the magnetic field, $E$ is the electrical field, $H$ is the magnetization field in isotropic media, $\rho$ is the total electric charge density and $j$ is the electric current density.
+In these equations, $D$ is the electric displacement field, $B$ is the magnetic field, $E$ is the electrical field, $H$ is the magnetisation field in isotropic media, $\rho$ is the total electric charge density and $j$ is the electric current density.
 As discussed in the section on [Clifford algebra](#clifford-algebras), the outer product is related to the cross product. Therefore the above equations lend themselves to expressing them in terms of multivector fields, making them a natural fit for the Clifford neural layers.
 The input to the network is a 3D multivector field where the electric field is the vector component and the magnetic field is the bivector component. So instead of 6 input fields you have one multivector field.
 The authors show that the Clifford architecture outperforms other architectures by a significant margin while only testing the Fourier neural operator.
 
-<p align="center">
-<img src="images/Results_plot_Maxwell2.png" alt="Results_plot_Maxwell2" width="500"/>  
-</p>
+![](images/Results_plot_Maxwell2.png){width="100%" fig-align="center"}
 
 ## Conclusion
 
-We analyzed the paper _'Geometric Clifford Algebra Networks and Clifford Neural Layers for PDE Modeling'_ by Brandstetter, Berg, Welling and Gupta published at ICLR 2023. We first looked at the Clifford algebra and how it is a natural way to express PDEs. The authors took the properties of the Clifford algebra and used them to replace common computations in neural networks. They showed that this approach outperforms normal unmodified neural networks for the tasks of fluid dynamics and electromagnetism.
+We analysed the paper _'Geometric Clifford Algebra Networks and Clifford Neural Layers for PDE Modeling'_ by Brandstetter, Berg, Welling and Gupta published at ICLR 2023. We first looked at the Clifford algebra and how it is a natural way to express PDEs. The authors took the properties and operations of the Clifford algebra and used them to replace scalar multiplications in neural networks. They showed that this approach outperforms normal unmodified neural networks for the tasks of fluid dynamics and electromagnetism.
 
 ## Limitations
 
-The backward pass of the Clifford Fourier neural operator layer is slower than the normal Fourier neural operator layer as it uses the complex valued Fourier transform which is not as optimized for backward passes as the real valued Fourier transform in PyTorch.
-Parameter counts of Clifford CNN layers is smaller, but the number of operations is larger doubling the training time.
+The backward pass of the Clifford Fourier neural operator layer is slower than the normal Fourier neural operator layer as it uses the complex-valued Fourier transform which is not as optimised for backward passes as the real-valued Fourier transform in PyTorch.
+Parameter counts of Clifford CNN layers are smaller, but the number of operations is larger doubling the training time.
 
-One limitation of the tests is that the use a common network architecture for all tasks. It would be interesting to see if the Clifford layers can improve more task specific architectures as well.
+One limitation of the tests is that they use a common network architecture for all tasks. It would be interesting to see if the Clifford layers can improve more task-specific architectures as well.
 
 ## Resources
 
