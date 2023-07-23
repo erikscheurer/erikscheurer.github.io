@@ -9,7 +9,7 @@
 <meta name="dcterms.date" content="2023-07-31">
 <meta name="description" content="Summary of the paper ‘Clifford Neural Layers for PDE Modeling’ published at ICLR 2023">
 
-<title>Erik Scheurer - Clifford Neural Layers for PDE Modeling</title>
+<title> Blog - Clifford Neural Layers for PDE Modeling</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -76,7 +76,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">Erik Scheurer</span>
+    <span class="navbar-title"><img class="circular_image" src="https://avatars.githubusercontent.com/u/84399192" width="7%" height="7%"> Blog</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -663,15 +663,6 @@ e_1*i = e_1 * e_{12} = e_1e_1e_2 = e_2,
 </section>
 <section id="applications" class="level2">
 <h2 class="anchored" data-anchor-id="applications">Applications</h2>
-<p>Clifford layers are very versatile as they can be used as a drop-in replacement for normal layers. This makes application in a wide range of use cases possible. The authors test the Clifford layers in three different contexts:</p>
-<ol type="1">
-<li>The <strong>Navier-Stokes equations</strong> in 2D</li>
-<li>The <strong>shallow water equations</strong> for weather prediction</li>
-<li>The <strong>Maxwell equations</strong> for electromagnetic fields</li>
-</ol>
-<p>For each application, a ResNet architecture, and a Fourier neural operator is trained and compared to their respective Clifford counterparts. The architectures of each network are modified to adjust for the different number of parameters. The Clifford layers have more parameters by default. In all examples, a pseudo ground truth is used to calculate by a traditional simulation.</p>
-<section id="d-navier-stokes" class="level3">
-<h3 class="anchored" data-anchor-id="d-navier-stokes">2D Navier-Stokes</h3>
 <div class="callout callout-style-simple callout-note callout-titled" title="TLDR">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -684,10 +675,19 @@ TLDR
 </div>
 <div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Clifford layers can be used to simulate fluid dynamics with higher accuracy than normal layers.</p>
+<p>Clifford layers can be used to simulate fluid dynamics and electromagnetic fields with higher accuracy than normal layers both trained on simulated data. For Maxwell equations, Clifford variants are a more natural expression of the data and perform much better for small amounts of data implying a good inductive bias.</p>
 </div>
 </div>
 </div>
+<p>Clifford layers are very versatile as they can be used as a drop-in replacement for normal layers. This makes application in a wide range of use cases possible. The authors test the Clifford layers in three different contexts:</p>
+<ol type="1">
+<li>The <strong>Navier-Stokes equations</strong> in 2D</li>
+<li>The <strong>shallow water equations</strong> for weather prediction</li>
+<li>The <strong>Maxwell equations</strong> for electromagnetic fields</li>
+</ol>
+<p>For each application, a ResNet architecture, and a Fourier neural operator is trained and compared to their respective Clifford counterparts. The architectures of each network are modified to adjust for the different number of parameters. The Clifford layers have more parameters by default. In all examples, a pseudo ground truth is used to calculate by a traditional simulation.</p>
+<section id="d-navier-stokes" class="level3">
+<h3 class="anchored" data-anchor-id="d-navier-stokes">2D Navier-Stokes</h3>
 <p>Going back to the previously introduced 2D Navier-Stokes equations, we can now use the Clifford layers to simulate fluid dynamics. The equations are repeated here for convenience:</p>
 <p><span class="math display">\[
 \frac{\partial v}{\partial t} = -\underbrace{v\cdot \nabla v}_\text{convection} + \underbrace{\mu \nabla^2v}_\text{viscosity}-\underbrace{\nabla p}_\text{internal pressure} + \underbrace{f}_\text{external force}
@@ -749,6 +749,7 @@ TLDR
 \end{aligned}
 \]</span></p>
 <p>In these equations, <span class="math inline">\(D\)</span> is the electric displacement field, <span class="math inline">\(B\)</span> is the magnetic field, <span class="math inline">\(E\)</span> is the electrical field, <span class="math inline">\(H\)</span> is the magnetisation field in isotropic media, <span class="math inline">\(\rho\)</span> is the total electric charge density and <span class="math inline">\(j\)</span> is the electric current density. As discussed in the section on <a href="#clifford-algebras">Clifford algebra</a>, the outer product is related to the cross product. Therefore the above equations lend themselves to expressing them in terms of multivector fields, making them a natural fit for the Clifford neural layers. The input to the network is a 3D multivector field where the electric field is the vector component and the magnetic field is the bivector component. So instead of 6 input fields you have one multivector field. The authors show that the Clifford architecture outperforms other architectures by a significant margin while only testing the Fourier neural operator.</p>
+<p>As the Maxwell equations have a natural expression in terms of multivector fields, the better performance of the Clifford variants implies an inductive bias that helps the network to learn the underlying physics faster.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/Results_plot_Maxwell2.png" class="img-fluid figure-img" style="width:100.0%"></p>

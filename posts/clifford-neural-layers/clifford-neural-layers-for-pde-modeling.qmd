@@ -476,6 +476,11 @@ For 3D we can analogously construct four separate Fourier transforms that can be
 
 ## Applications
 
+::: {.callout-note appearance="simple" collapse="true" title="TLDR"}
+Clifford layers can be used to simulate fluid dynamics and electromagnetic fields with higher accuracy than normal layers both trained on simulated data. For Maxwell equations, Clifford variants are a more natural expression of the data and perform much better for small amounts of data implying a good inductive bias.
+:::
+
+
 Clifford layers are very versatile as they can be used as a drop-in replacement for normal layers. This makes application in a wide range of use cases possible. The authors test the Clifford layers in three different contexts:
 
 1. The **Navier-Stokes equations** in 2D
@@ -486,10 +491,6 @@ For each application, a ResNet architecture, and a Fourier neural operator is tr
 In all examples, a pseudo ground truth is used to calculate by a traditional simulation.
 
 ### 2D Navier-Stokes
-
-::: {.callout-note appearance="simple" collapse="true" title="TLDR"}
-Clifford layers can be used to simulate fluid dynamics with higher accuracy than normal layers.
-:::
 
 Going back to the previously introduced 2D Navier-Stokes equations, we can now use the Clifford layers to simulate fluid dynamics. The equations are repeated here for convenience:
 
@@ -570,6 +571,8 @@ In these equations, $D$ is the electric displacement field, $B$ is the magnetic 
 As discussed in the section on [Clifford algebra](#clifford-algebras), the outer product is related to the cross product. Therefore the above equations lend themselves to expressing them in terms of multivector fields, making them a natural fit for the Clifford neural layers.
 The input to the network is a 3D multivector field where the electric field is the vector component and the magnetic field is the bivector component. So instead of 6 input fields you have one multivector field.
 The authors show that the Clifford architecture outperforms other architectures by a significant margin while only testing the Fourier neural operator.
+
+As the Maxwell equations have a natural expression in terms of multivector fields, the better performance of the Clifford variants implies an inductive bias that helps the network to learn the underlying physics faster.
 
 ![](images/Results_plot_Maxwell2.png){width="100%" fig-align="center"}
 
