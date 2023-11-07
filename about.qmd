@@ -42,3 +42,6 @@ Publications
 * [Blind Image Inpainting with Sparse Directional Filter Dictionaries for Lightweight CNNs](https://link.springer.com/article/10.1007/s10851-022-01119-6)
   * Journal of Mathematical Imaging and Vision, 2022
   * Jenny Schmalfuss, Erik Scheurer, Heng Zhao, Nikolaos Karantzas, Andrés Bruhn & Demetrio Labate
+* [Micro Manager: a Python package for adaptive and flexible two-scale coupling](https://joss.theoj.org/papers/10.21105/joss.05842)
+  * Journal of Open Source Software, Nov 2023
+  * Ishaan Desai, Erik Scheurer, Carina Bringedal, and Benjamin Uekermann
