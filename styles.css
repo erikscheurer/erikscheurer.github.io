@@ -1,1 +1,9 @@
 /* css styles */
+.circular_image {
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0);
+  }
+  .circular_image img{
+    width:100%;
+  }
