@@ -45,3 +45,6 @@ Publications
 * [Micro Manager: a Python package for adaptive and flexible two-scale coupling](https://joss.theoj.org/papers/10.21105/joss.05842)
   * Journal of Open Source Software, Nov 2023
   * Ishaan Desai, Erik Scheurer, Carina Bringedal, and Benjamin Uekermann
+* [Detection Defenses: An Empty Promise against Adversarial Patch Attacks on Optical Flow](https://arxiv.org/abs/2310.17403)
+  * Accepted to WACV 2024
+  * Erik Scheurer, Jenny Schmalfuss, Alexander Lis, Andrés Bruhn
