@@ -1,19 +1,5 @@
 [
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About Me",
-    "section": "",
-    "text": "I am a student of Simulation Technology at the University of Stuttgart. My interests include computer vision, deep learning, scientific computing, and everything at the intersection of these fields.\n\nEducation\n\nB.Sc. in Simulation Technology, University of Stuttgart, 2022\n\nBachelor Thesis: “An Optimization Approach to Attacking the Horn and Schunk Method”\nSupervisor: Jenny Schmalfuss\n\nM.Sc. in Simulation Technology, University of Stuttgart, 2025 (expected)\n\n\n\nWork experience\n\n2020-2023: Research Assistant\n\nInstitute for Parallel and Distributed Systems, University of Stuttgart\nDuties included: Contributing to the development of preCICE and its ecosystem\nSupervisor: Ishaan Desai\n\n2019-2020: Student Assistant\n\nUniversity of Stuttgart\nDuties included: Supervision of exercises of “Fortgeschrittene Analysis für SimTech 2” and “Mathematische Programmierung für Lehramt”\n\n\n\n\nPublications\n\nBlind Image Inpainting with Sparse Directional Filter Dictionaries for Lightweight CNNs\n\nJournal of Mathematical Imaging and Vision, 2022\nJenny Schmalfuss, Erik Scheurer, Heng Zhao, Nikolaos Karantzas, Andrés Bruhn & Demetrio Labate\n\nMicro Manager: a Python package for adaptive and flexible two-scale coupling\n\nJournal of Open Source Software, Nov 2023\nIshaan Desai, Erik Scheurer, Carina Bringedal, and Benjamin Uekermann"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Blog",
-    "section": "",
-    "text": "Clifford Neural Layers for PDE Modeling\n\n\n\n\n\n\n\nClifford Neural Networks\n\n\nPDE Modeling\n\n\nDeep Learning\n\n\n\n\nSummary of the paper ‘Clifford Neural Layers for PDE Modeling’ published at ICLR 2023\n\n\n\n\n\n\nJul 31, 2023\n\n\n\n\n\n\nNo matching items"
-  },
-  {
     "objectID": "posts/clifford-neural-layers/clifford-neural-layers-for-pde-modeling.html",
     "href": "posts/clifford-neural-layers/clifford-neural-layers-for-pde-modeling.html",
     "title": "Clifford Neural Layers for PDE Modeling",
@@ -89,5 +75,19 @@
     "title": "Posts",
     "section": "",
     "text": "Clifford Neural Layers for PDE Modeling\n\n\n\n\n\n\n\nClifford Neural Networks\n\n\nPDE Modeling\n\n\nDeep Learning\n\n\n\n\nSummary of the paper ‘Clifford Neural Layers for PDE Modeling’ published at ICLR 2023\n\n\n\n\n\n\nJul 31, 2023\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Blog",
+    "section": "",
+    "text": "Clifford Neural Layers for PDE Modeling\n\n\n\n\n\n\n\nClifford Neural Networks\n\n\nPDE Modeling\n\n\nDeep Learning\n\n\n\n\nSummary of the paper ‘Clifford Neural Layers for PDE Modeling’ published at ICLR 2023\n\n\n\n\n\n\nJul 31, 2023\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About Me",
+    "section": "",
+    "text": "I am a student of Simulation Technology at the University of Stuttgart. My interests include computer vision, deep learning, scientific computing, and everything at the intersection of these fields.\n\nEducation\n\nB.Sc. in Simulation Technology, University of Stuttgart, 2022\n\nBachelor Thesis: “An Optimization Approach to Attacking the Horn and Schunk Method”\nSupervisor: Jenny Schmalfuss\n\nM.Sc. in Simulation Technology, University of Stuttgart, 2025 (expected)\n\n\n\nWork experience\n\n2020-2023: Research Assistant\n\nInstitute for Parallel and Distributed Systems, University of Stuttgart\nDuties included: Contributing to the development of preCICE and its ecosystem\nSupervisor: Ishaan Desai\n\n2019-2020: Student Assistant\n\nUniversity of Stuttgart\nDuties included: Supervision of exercises of “Fortgeschrittene Analysis für SimTech 2” and “Mathematische Programmierung für Lehramt”\n\n\n\n\nPublications\n\nBlind Image Inpainting with Sparse Directional Filter Dictionaries for Lightweight CNNs\n\nJournal of Mathematical Imaging and Vision, 2022\nJenny Schmalfuss, Erik Scheurer, Heng Zhao, Nikolaos Karantzas, Andrés Bruhn & Demetrio Labate\n\nMicro Manager: a Python package for adaptive and flexible two-scale coupling\n\nJournal of Open Source Software, Nov 2023\nIshaan Desai, Erik Scheurer, Carina Bringedal, and Benjamin Uekermann\n\nDetection Defenses: An Empty Promise against Adversarial Patch Attacks on Optical Flow\n\nAccepted to WACV 2024\nErik Scheurer, Jenny Schmalfuss, Alexander Lis, Andrés Bruhn"
   }
 ]
