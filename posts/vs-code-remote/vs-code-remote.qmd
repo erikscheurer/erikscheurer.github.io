@@ -10,7 +10,6 @@ draft: false
 toc: true
 ---
 
-# Connecting VS Code to a Remote Server
 
 ## Introduction
 
@@ -118,4 +117,47 @@ Host <hostname1> <hostname2> <hostname3>
 5. You are now connected to the remote server. If you open a terminal in VS Code, you will see that it is the terminal of the remote server.
 6. You can now open a folder on the remote server by clicking "File" -> "Open Folder..." and choosing the folder on the remote server or by navigating to the folder in the terminal and running `code .`
 
-## You are now ready to use VS Code on a remote server!
+
+<p style="font-size:25px;">**You are now ready to use VS Code on a remote server!**</p>
+The rest of this post will be some helpful commands and extensions for VS Code completely unrelated to the topic but that I wanted to write down somewhere.
+
+### Helpful Linux commands
+
+- `ssh <username>@<hostname>`: Connect to a remote server through SSH.
+- `ls` or `ls <dir>`: List files in the current directory.
+    - `ls -a`: List all files, including hidden files and directories. (for example `.ssh`)
+- `cd <dir>`: Change directory.
+- `~`: Home directory.
+- `pwd`: Print working directory.
+- `cat <file>`: Print the contents of a file.
+- `which <command>`: Show the path which will be executed when you run a command.
+- `setfacl -m u:<username>:rwx <dir>`: Give a user read, write and execute permissions to a directory.
+
+### Helpful VS Code commands
+This will become a future blog post probably.
+
+- `Ctrl+Shift+P`: Open the command palette.
+    - From here you can search for commands and see the keyboard shortcuts.
+- `Ctrl+P`: Open the file search.
+    - `Ctrl+P` -> `:<line number>`: Go to a specific line in the file.
+- `Ctrl+Shift+F`: Search through the contents of all files in the current folder.
+
+- `Ctrl+Shift+N`: Open a new window.
+- `Ctrl+T`: Open a new tab.
+- `Ctrl+Shift+T`: Reopen last closed tab.
+- `Ctrl+J`: Toggle the terminal panel.
+
+- `Ctrl+D`: Select the next occurrence of the current selection.
+- `Ctrl+Shift+L`: Select all occurrences of the current selection.
+- `Ctrl+Shift+K`: Delete the current line.
+
+If you have a path in the terminal, you can click on it to open the file in VS Code. This is useful if you get an error.
+
+### Helpful VS Code extensions
+
+- [Remote - SSH](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh): Connect to a remote server through SSH.
+- [GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot): Free for students, use AI to help you write code. After some learning curve it speeds up your workflow a lot.
+- [GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens): Improves the Git integration in VS Code.
+- [Multiple cursor case preserve](https://marketplace.visualstudio.com/items?itemName=Cardinal90.multi-cursor-case-preserve): When you use multiple cursors to change a word that has different cases, it will preserve the case of the word.
+- [Terminal Here](https://marketplace.visualstudio.com/items?itemName=Tyriar.vscode-terminal-here): Open a terminal in the folder of the current file. Very useful if you are working on a project with deep folder structures.
+- [Error Lens](https://marketplace.visualstudio.com/items?itemName=usernamehw.errorlens): Show errors and warnings inline in the editor so you don't have to hover over the error.
