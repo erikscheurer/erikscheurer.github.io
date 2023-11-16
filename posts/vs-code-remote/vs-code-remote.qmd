@@ -1,0 +1,121 @@
+---
+title: "Connecting VS Code to a Remote Server"
+description: "Step by step guide to connect VS Code to a remote server through SSH"
+image: 2023-11-16-20-03-57.png
+date: 2023-11-16
+categories: ["VS Code", "SSH", "Tooling"]
+editor:
+  render-on-save: true
+draft: false
+toc: true
+---
+
+# Connecting VS Code to a Remote Server
+
+## Introduction
+
+After explaining this many times, this guide will show you how to connect VS Code to a remote server through SSH. I'll try to keep it as short as possible while still explaining what you are doing.
+
+## 0. Prerequisites
+
+- Have VS Code installed: [Download](https://code.visualstudio.com/download)
+- Remote - SSH extension: Go to the extensions tab in VS Code (or press "Ctrl+shift+X") and search for "Remote - SSH". Click install. ![Remote - SSH: VS Code Extension](2023-11-16-20-03-57.png)
+- Username and password for the remote server. You should have gotten this from your supervisor or administrator.
+
+## 1. What is SSH?
+
+SSH is a protocol that allows you to connect to a remote server through a secure connection. Usually, you would use SSH to connect a terminal to a remote server to run commands. VS Code, the great tool that it is, allows you to connect to a remote server through SSH and use it as if it was your local machine. This means that you can use VS Code to edit files on a remote server, run commands, and even debug your code.
+
+## 2. Generate SSH keys
+
+SSH keys are used to authenticate you to the remote server. You can generate SSH keys by running the following command in your terminal:
+
+```bash
+ssh-keygen -a 100 -t ed25519 -f ~/.ssh/id_ed25519
+```
+
+This will generate a public and private key in the `~/.ssh` directory.
+The passphrase is optional, you will have to enter it every time you connect to the remote server. If you don't want to enter a passphrase, just press enter.
+
+## 3. Add SSH key to remote server
+
+Now that you have generated your SSH keys, you need to add the public key to the remote server.
+Either, you have a web interface where you can manually add the public key, or if you only have access to the terminal, you can do the following:
+
+<details>
+<summary>On Linux or Mac</summary>
+Run the following command in your terminal:
+
+```bash
+ssh-copy-id -i ~/.ssh/id_ed25519.pub <username>@<hostname>
+```
+
+</details>
+
+<details>
+<summary>On Windows</summary>
+
+I would recommend to ssh into the remote server and add the public key manually. You can find the public key in `~/.ssh/id_ed25519.pub`.
+
+Run the following command in your terminal:
+
+```bash
+ssh <username>@<hostname>
+```
+
+Here you will have to input your password. Once you are logged in, run the following command to add the public key to the authorized keys file:
+
+```bash
+echo "<public key>" >> ~/.ssh/authorized_keys
+```
+</details>
+
+## 4. Edit SSH config
+
+You can edit the SSH config file to make it easier to connect to the remote server. The SSH config file is located in `~/.ssh/config`. We will acces this file through VS Code.
+
+1. Open VS Code and press "Ctrl+Shift+P" to open the command palette.
+2. Search for "Remote-SSH: Open Configuration File..." and press enter.
+3. Choose the one in your home directory.
+4. Add the following to the file:
+
+```bash
+Host <hostname>
+    HostName <hostname>
+    User <username>
+    IdentityFile ~/.ssh/id_ed25519
+```
+
+<details>
+<summary>Additional Configuration Options</summary>
+- You can add multiple hosts to the SSH config file. This is useful if you have multiple servers you want to connect to.
+- If you have to go through a jump host to connect to the remote server, you can add the following to the SSH config file:
+
+```bash
+Host <hostname>
+    HostName <hostname>
+    User <username>
+    IdentityFile ~/.ssh/id_ed25519
+    ProxyCommand ssh <jump host username>@<jump host hostname> -W %h:%p
+```
+- If you have multiple really similar hosts, you can use `%h` and `%p` in the SSH config file. `%h` will be replaced with the hostname and `%p` will be replaced with the port number. This is useful if you have multiple servers with the same username and SSH key.
+
+```bash
+Host <hostname1> <hostname2> <hostname3>
+    HostName %h
+    User <username>
+    IdentityFile ~/.ssh/id_ed25519
+```
+</details>
+
+
+## 5. Connecting VS Code to a remote server
+
+1. Open VS Code and press "Ctrl+Shift+P" to open the command palette.
+2. Search for "Remote-SSH: Connect to Host..." and press enter. ![Remote-SSH: Connect to Host...](2023-11-16-20-21-06.png)
+3. Choose the host you want to connect to.
+4. Maybe: Enter your password.
+5. You are now connected to the remote server. If you open a terminal in VS Code, you will see that it is the terminal of the remote server.
+6. You can now open a folder on the remote server by clicking "File" -> "Open Folder..." and choosing the folder on the remote server or by navigating to the folder in the terminal and running `code .`
+
+## You are now ready to use VS Code on a remote server!
