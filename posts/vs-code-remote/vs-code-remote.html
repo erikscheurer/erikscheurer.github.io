@@ -178,16 +178,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#connecting-vs-code-to-a-remote-server" id="toc-connecting-vs-code-to-a-remote-server" class="nav-link active" data-scroll-target="#connecting-vs-code-to-a-remote-server">Connecting VS Code to a Remote Server</a>
-  <ul class="collapse">
-  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">0. Prerequisites</a></li>
   <li><a href="#what-is-ssh" id="toc-what-is-ssh" class="nav-link" data-scroll-target="#what-is-ssh">1. What is SSH?</a></li>
   <li><a href="#generate-ssh-keys" id="toc-generate-ssh-keys" class="nav-link" data-scroll-target="#generate-ssh-keys">2. Generate SSH keys</a></li>
   <li><a href="#add-ssh-key-to-remote-server" id="toc-add-ssh-key-to-remote-server" class="nav-link" data-scroll-target="#add-ssh-key-to-remote-server">3. Add SSH key to remote server</a></li>
   <li><a href="#edit-ssh-config" id="toc-edit-ssh-config" class="nav-link" data-scroll-target="#edit-ssh-config">4. Edit SSH config</a></li>
-  <li><a href="#connecting-vs-code-to-a-remote-server-1" id="toc-connecting-vs-code-to-a-remote-server-1" class="nav-link" data-scroll-target="#connecting-vs-code-to-a-remote-server-1">5. Connecting VS Code to a remote server</a></li>
-  <li><a href="#you-are-now-ready-to-use-vs-code-on-a-remote-server" id="toc-you-are-now-ready-to-use-vs-code-on-a-remote-server" class="nav-link" data-scroll-target="#you-are-now-ready-to-use-vs-code-on-a-remote-server">You are now ready to use VS Code on a remote server!</a></li>
+  <li><a href="#connecting-vs-code-to-a-remote-server" id="toc-connecting-vs-code-to-a-remote-server" class="nav-link" data-scroll-target="#connecting-vs-code-to-a-remote-server">5. Connecting VS Code to a remote server</a>
+  <ul class="collapse">
+  <li><a href="#helpful-linux-commands" id="toc-helpful-linux-commands" class="nav-link" data-scroll-target="#helpful-linux-commands">Helpful Linux commands</a></li>
+  <li><a href="#helpful-vs-code-commands" id="toc-helpful-vs-code-commands" class="nav-link" data-scroll-target="#helpful-vs-code-commands">Helpful VS Code commands</a></li>
+  <li><a href="#helpful-vs-code-extensions" id="toc-helpful-vs-code-extensions" class="nav-link" data-scroll-target="#helpful-vs-code-extensions">Helpful VS Code extensions</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -198,8 +199,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="connecting-vs-code-to-a-remote-server" class="level1">
-<h1>Connecting VS Code to a Remote Server</h1>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>After explaining this many times, this guide will show you how to connect VS Code to a remote server through SSH. I’ll try to keep it as short as possible while still explaining what you are doing.</p>
@@ -278,8 +277,8 @@ Additional Configuration Options
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="ex">IdentityFile</span> ~/.ssh/id_ed25519</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </section>
-<section id="connecting-vs-code-to-a-remote-server-1" class="level2">
-<h2 class="anchored" data-anchor-id="connecting-vs-code-to-a-remote-server-1">5. Connecting VS Code to a remote server</h2>
+<section id="connecting-vs-code-to-a-remote-server" class="level2">
+<h2 class="anchored" data-anchor-id="connecting-vs-code-to-a-remote-server">5. Connecting VS Code to a remote server</h2>
 <ol type="1">
 <li>Open VS Code and press “Ctrl+Shift+P” to open the command palette.</li>
 <li>Search for “Remote-SSH: Connect to Host…” and press enter. <img src="2023-11-16-20-21-06.png" class="img-fluid" alt="Remote-SSH: Connect to Host…"></li>
@@ -288,9 +287,59 @@ Additional Configuration Options
 <li>You are now connected to the remote server. If you open a terminal in VS Code, you will see that it is the terminal of the remote server.</li>
 <li>You can now open a folder on the remote server by clicking “File” -&gt; “Open Folder…” and choosing the folder on the remote server or by navigating to the folder in the terminal and running <code>code .</code></li>
 </ol>
+<p style="font-size:25px;">
+<strong>You are now ready to use VS Code on a remote server!</strong>
+</p>
+<p>The rest of this post will be some helpful commands and extensions for VS Code completely unrelated to the topic but that I wanted to write down somewhere.</p>
+<section id="helpful-linux-commands" class="level3">
+<h3 class="anchored" data-anchor-id="helpful-linux-commands">Helpful Linux commands</h3>
+<ul>
+<li><code>ssh &lt;username&gt;@&lt;hostname&gt;</code>: Connect to a remote server through SSH.</li>
+<li><code>ls</code> or <code>ls &lt;dir&gt;</code>: List files in the current directory.
+<ul>
+<li><code>ls -a</code>: List all files, including hidden files and directories. (for example <code>.ssh</code>)</li>
+</ul></li>
+<li><code>cd &lt;dir&gt;</code>: Change directory.</li>
+<li><code>~</code>: Home directory.</li>
+<li><code>pwd</code>: Print working directory.</li>
+<li><code>cat &lt;file&gt;</code>: Print the contents of a file.</li>
+<li><code>which &lt;command&gt;</code>: Show the path which will be executed when you run a command.</li>
+<li><code>setfacl -m u:&lt;username&gt;:rwx &lt;dir&gt;</code>: Give a user read, write and execute permissions to a directory.</li>
+</ul>
 </section>
-<section id="you-are-now-ready-to-use-vs-code-on-a-remote-server" class="level2">
-<h2 class="anchored" data-anchor-id="you-are-now-ready-to-use-vs-code-on-a-remote-server">You are now ready to use VS Code on a remote server!</h2>
+<section id="helpful-vs-code-commands" class="level3">
+<h3 class="anchored" data-anchor-id="helpful-vs-code-commands">Helpful VS Code commands</h3>
+<p>This will become a future blog post probably.</p>
+<ul>
+<li><p><code>Ctrl+Shift+P</code>: Open the command palette.</p>
+<ul>
+<li>From here you can search for commands and see the keyboard shortcuts.</li>
+</ul></li>
+<li><p><code>Ctrl+P</code>: Open the file search.</p>
+<ul>
+<li><code>Ctrl+P</code> -&gt; <code>:&lt;line number&gt;</code>: Go to a specific line in the file.</li>
+</ul></li>
+<li><p><code>Ctrl+Shift+F</code>: Search through the contents of all files in the current folder.</p></li>
+<li><p><code>Ctrl+Shift+N</code>: Open a new window.</p></li>
+<li><p><code>Ctrl+T</code>: Open a new tab.</p></li>
+<li><p><code>Ctrl+Shift+T</code>: Reopen last closed tab.</p></li>
+<li><p><code>Ctrl+J</code>: Toggle the terminal panel.</p></li>
+<li><p><code>Ctrl+D</code>: Select the next occurrence of the current selection.</p></li>
+<li><p><code>Ctrl+Shift+L</code>: Select all occurrences of the current selection.</p></li>
+<li><p><code>Ctrl+Shift+K</code>: Delete the current line.</p></li>
+</ul>
+<p>If you have a path in the terminal, you can click on it to open the file in VS Code. This is useful if you get an error.</p>
+</section>
+<section id="helpful-vs-code-extensions" class="level3">
+<h3 class="anchored" data-anchor-id="helpful-vs-code-extensions">Helpful VS Code extensions</h3>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh">Remote - SSH</a>: Connect to a remote server through SSH.</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=GitHub.copilot">GitHub Copilot</a>: Free for students, use AI to help you write code. After some learning curve it speeds up your workflow a lot.</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens">GitLens</a>: Improves the Git integration in VS Code.</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=Cardinal90.multi-cursor-case-preserve">Multiple cursor case preserve</a>: When you use multiple cursors to change a word that has different cases, it will preserve the case of the word.</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=Tyriar.vscode-terminal-here">Terminal Here</a>: Open a terminal in the folder of the current file. Very useful if you are working on a project with deep folder structures.</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=usernamehw.errorlens">Error Lens</a>: Show errors and warnings inline in the editor so you don’t have to hover over the error.</li>
+</ul>
 
 
 </section>
