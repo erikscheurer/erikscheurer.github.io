@@ -90,21 +90,35 @@ Host <hostname>
 - You can add multiple hosts to the SSH config file. This is useful if you have multiple servers you want to connect to.
 - If you have to go through a jump host to connect to the remote server, you can add the following to the SSH config file:
 
-```bash
-Host <hostname>
-    HostName <hostname>
-    User <username>
-    IdentityFile ~/.ssh/id_ed25519
-    ProxyCommand ssh <jump host username>@<jump host hostname> -W %h:%p
-```
-- If you have multiple really similar hosts, you can use `%h` and `%p` in the SSH config file. `%h` will be replaced with the hostname and `%p` will be replaced with the port number. This is useful if you have multiple servers with the same username and SSH key.
+    ```bash
+    Host <hostname>
+        HostName <hostname>
+        User <username>
+        IdentityFile ~/.ssh/id_ed25519
+        ProxyCommand ssh <jump host username>@<jump host hostname> -W %h:%p
+    ```
 
-```bash
-Host <hostname1> <hostname2> <hostname3>
-    HostName %h
-    User <username>
-    IdentityFile ~/.ssh/id_ed25519
-```
+- If you have multiple really similar hosts, you can use `%h` in the SSH config file. `%h` will be replaced with the hostname and `%p` will be replaced with the port number. This is useful if you have multiple servers with the same username and SSH key.
+
+    ```bash
+    Host <hostname1> <hostname2> <hostname3>
+        HostName %h
+        ...
+    ```
+
+- If you want to push to GitHub through SSH, you can forward your SSH agent to the remote server. This will allow you to push to GitHub without having to add a new SSH key to GitHub. You can do this by adding the following to the SSH config file:
+
+    ```bash 
+        ForwardAgent yes
+    ```
+
+- If you want to look at plots or images on the remote server, you can forward the X11 display to your local machine. This will allow you to open plots and images on the remote server and have them show up on your local machine. You can do this by adding the following to the SSH config file:
+
+    ```bash
+        ForwardX11 yes
+    ```
+    This works as is on Linux and Mac. On Windows, you will have to install an X11 server.
+
 </details>
 
 
@@ -132,9 +146,15 @@ The rest of this post will be some helpful commands and extensions for VS Code c
 - `cat <file>`: Print the contents of a file.
 - `which <command>`: Show the path which will be executed when you run a command.
 - `setfacl -m u:<username>:rwx <dir>`: Give a user read, write and execute permissions to a directory.
+- In the terminal press `Ctrl+R` to search through your command history.
+
 
 ### Helpful VS Code commands
 This will become a future blog post probably.
+
+I try to apply the rule: "If you do something by hand, you are probably doing it wrong." This has saved me a lot of time when I do repetitive tasks.
+
+General:
 
 - `Ctrl+Shift+P`: Open the command palette.
     - From here you can search for commands and see the keyboard shortcuts.
@@ -142,14 +162,20 @@ This will become a future blog post probably.
     - `Ctrl+P` -> `:<line number>`: Go to a specific line in the file.
 - `Ctrl+Shift+F`: Search through the contents of all files in the current folder.
 
+Window management:
+
 - `Ctrl+Shift+N`: Open a new window.
 - `Ctrl+T`: Open a new tab.
 - `Ctrl+Shift+T`: Reopen last closed tab.
 - `Ctrl+J`: Toggle the terminal panel.
 
+Text editing:
+
 - `Ctrl+D`: Select the next occurrence of the current selection.
 - `Ctrl+Shift+L`: Select all occurrences of the current selection.
 - `Ctrl+Shift+K`: Delete the current line.
+- `Ctrl+Shift+Enter`: Insert a new line above the current line.
+- Mark multiple lines and `Toggle line comment` to comment multiple lines. (I changed the keyboard shortcut to `Ctrl+#`)
 
 If you have a path in the terminal, you can click on it to open the file in VS Code. This is useful if you get an error.
 
