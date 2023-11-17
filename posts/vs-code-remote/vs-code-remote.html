@@ -260,21 +260,23 @@ On Windows
 Additional Configuration Options
 </summary>
 <ul>
-<li>You can add multiple hosts to the SSH config file. This is useful if you have multiple servers you want to connect to.</li>
-<li>If you have to go through a jump host to connect to the remote server, you can add the following to the SSH config file:</li>
-</ul>
+<li><p>You can add multiple hosts to the SSH config file. This is useful if you have multiple servers you want to connect to.</p></li>
+<li><p>If you have to go through a jump host to connect to the remote server, you can add the following to the SSH config file:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Host</span> <span class="op">&lt;</span>hostname<span class="op">&gt;</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">HostName</span> <span class="op">&lt;</span>hostname<span class="op">&gt;</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">User</span> <span class="op">&lt;</span>username<span class="op">&gt;</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="ex">IdentityFile</span> ~/.ssh/id_ed25519</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">ProxyCommand</span> ssh <span class="op">&lt;</span>jump host username<span class="op">&gt;</span>@<span class="op">&lt;</span>jump host hostname<span class="op">&gt;</span> -W %h:%p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ul>
-<li>If you have multiple really similar hosts, you can use <code>%h</code> and <code>%p</code> in the SSH config file. <code>%h</code> will be replaced with the hostname and <code>%p</code> will be replaced with the port number. This is useful if you have multiple servers with the same username and SSH key.</li>
-</ul>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">ProxyCommand</span> ssh <span class="op">&lt;</span>jump host username<span class="op">&gt;</span>@<span class="op">&lt;</span>jump host hostname<span class="op">&gt;</span> -W %h:%p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>If you have multiple really similar hosts, you can use <code>%h</code> in the SSH config file. <code>%h</code> will be replaced with the hostname and <code>%p</code> will be replaced with the port number. This is useful if you have multiple servers with the same username and SSH key.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Host</span> <span class="op">&lt;</span>hostname1<span class="op">&gt;</span> <span class="op">&lt;</span>hostname2<span class="op">&gt;</span> <span class="op">&lt;</span>hostname3<span class="op">&gt;</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">HostName</span> %h</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">User</span> <span class="op">&lt;</span>username<span class="op">&gt;</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="ex">IdentityFile</span> ~/.ssh/id_ed25519</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>If you want to push to GitHub through SSH, you can forward your SSH agent to the remote server. This will allow you to push to GitHub without having to add a new SSH key to GitHub. You can do this by adding the following to the SSH config file:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>    <span class="ex">ForwardAgent</span> yes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>If you want to look at plots or images on the remote server, you can forward the X11 display to your local machine. This will allow you to open plots and images on the remote server and have them show up on your local machine. You can do this by adding the following to the SSH config file:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>    <span class="ex">ForwardX11</span> yes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This works as is on Linux and Mac. On Windows, you will have to install an X11 server.</p></li>
+</ul>
 </details>
 </section>
 <section id="connecting-vs-code-to-a-remote-server" class="level2">
@@ -305,28 +307,39 @@ Additional Configuration Options
 <li><code>cat &lt;file&gt;</code>: Print the contents of a file.</li>
 <li><code>which &lt;command&gt;</code>: Show the path which will be executed when you run a command.</li>
 <li><code>setfacl -m u:&lt;username&gt;:rwx &lt;dir&gt;</code>: Give a user read, write and execute permissions to a directory.</li>
+<li>In the terminal press <code>Ctrl+R</code> to search through your command history.</li>
 </ul>
 </section>
 <section id="helpful-vs-code-commands" class="level3">
 <h3 class="anchored" data-anchor-id="helpful-vs-code-commands">Helpful VS Code commands</h3>
 <p>This will become a future blog post probably.</p>
+<p>I try to apply the rule: “If you do something by hand, you are probably doing it wrong.” This has saved me a lot of time when I do repetitive tasks.</p>
+<p>General:</p>
 <ul>
-<li><p><code>Ctrl+Shift+P</code>: Open the command palette.</p>
+<li><code>Ctrl+Shift+P</code>: Open the command palette.
 <ul>
 <li>From here you can search for commands and see the keyboard shortcuts.</li>
 </ul></li>
-<li><p><code>Ctrl+P</code>: Open the file search.</p>
+<li><code>Ctrl+P</code>: Open the file search.
 <ul>
 <li><code>Ctrl+P</code> -&gt; <code>:&lt;line number&gt;</code>: Go to a specific line in the file.</li>
 </ul></li>
-<li><p><code>Ctrl+Shift+F</code>: Search through the contents of all files in the current folder.</p></li>
-<li><p><code>Ctrl+Shift+N</code>: Open a new window.</p></li>
-<li><p><code>Ctrl+T</code>: Open a new tab.</p></li>
-<li><p><code>Ctrl+Shift+T</code>: Reopen last closed tab.</p></li>
-<li><p><code>Ctrl+J</code>: Toggle the terminal panel.</p></li>
-<li><p><code>Ctrl+D</code>: Select the next occurrence of the current selection.</p></li>
-<li><p><code>Ctrl+Shift+L</code>: Select all occurrences of the current selection.</p></li>
-<li><p><code>Ctrl+Shift+K</code>: Delete the current line.</p></li>
+<li><code>Ctrl+Shift+F</code>: Search through the contents of all files in the current folder.</li>
+</ul>
+<p>Window management:</p>
+<ul>
+<li><code>Ctrl+Shift+N</code>: Open a new window.</li>
+<li><code>Ctrl+T</code>: Open a new tab.</li>
+<li><code>Ctrl+Shift+T</code>: Reopen last closed tab.</li>
+<li><code>Ctrl+J</code>: Toggle the terminal panel.</li>
+</ul>
+<p>Text editing:</p>
+<ul>
+<li><code>Ctrl+D</code>: Select the next occurrence of the current selection.</li>
+<li><code>Ctrl+Shift+L</code>: Select all occurrences of the current selection.</li>
+<li><code>Ctrl+Shift+K</code>: Delete the current line.</li>
+<li><code>Ctrl+Shift+Enter</code>: Insert a new line above the current line.</li>
+<li>Mark multiple lines and <code>Toggle line comment</code> to comment multiple lines. (I changed the keyboard shortcut to <code>Ctrl+#</code>)</li>
 </ul>
 <p>If you have a path in the terminal, you can click on it to open the file in VS Code. This is useful if you get an error.</p>
 </section>
