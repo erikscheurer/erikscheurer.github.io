@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://github.com/erikscheurer/erikscheurer.github.io/posts/vs-code-remote/vs-code-remote.html</loc>
-    <lastmod>2023-11-17T12:15:34.819Z</lastmod>
+    <loc>https://erikscheurer.github.io/index.html</loc>
+    <lastmod>2024-03-18T11:16:10.938Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/erikscheurer/erikscheurer.github.io/about.html</loc>
-    <lastmod>2023-11-17T12:15:33.215Z</lastmod>
+    <loc>https://erikscheurer.github.io/posts.html</loc>
+    <lastmod>2024-03-18T11:16:10.938Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/erikscheurer/erikscheurer.github.io/index.html</loc>
-    <lastmod>2023-11-17T12:15:32.271Z</lastmod>
+    <loc>https://erikscheurer.github.io/posts/clifford-neural-layers/clifford-neural-layers-for-pde-modeling.html</loc>
+    <lastmod>2024-03-18T11:16:10.938Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/erikscheurer/erikscheurer.github.io/posts.html</loc>
-    <lastmod>2023-11-17T12:15:32.911Z</lastmod>
+    <loc>https://erikscheurer.github.io/posts/vs-code-remote/vs-code-remote.html</loc>
+    <lastmod>2024-03-18T11:16:10.950Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/erikscheurer/erikscheurer.github.io/posts/clifford-neural-layers/clifford-neural-layers-for-pde-modeling.html</loc>
-    <lastmod>2023-11-17T12:15:34.299Z</lastmod>
+    <loc>https://erikscheurer.github.io/about.html</loc>
+    <lastmod>2024-03-18T11:16:10.926Z</lastmod>
   </url>
 </urlset>
