@@ -20,13 +20,18 @@ I am a student of [Simulation Technology](https://www.simtech.uni-stuttgart.de) 
 
 Education
 ======
+* M.Sc. in Simulation Technology, University of Stuttgart, 2025 (expected)
 * B.Sc. in Simulation Technology, University of Stuttgart, 2022
   * Bachelor Thesis: "An Optimization Approach to Attacking the Horn and Schunk Method"
   * Supervisor: [Jenny Schmalfuss](https://www.vis.uni-stuttgart.de/en/institute/team/Schmalfuss/)
-* M.Sc. in Simulation Technology, University of Stuttgart, 2025 (expected)
 
 Work experience
 ======
+* 2024: Research Assistant
+  * Forschungszentrum Jülich GmbH
+  * Duties included: Research on foundation models for earth observation
+  * Supervisors: Gabriele Cavallaro, Rocco Sedona
+
 * 2020-2023: Research Assistant
   * Institute for Parallel and Distributed Systems, University of Stuttgart
   * Duties included: Contributing to the development of [preCICE](precice.org) and its ecosystem
@@ -45,6 +50,6 @@ Publications
 * [Micro Manager: a Python package for adaptive and flexible two-scale coupling](https://joss.theoj.org/papers/10.21105/joss.05842)
   * Journal of Open Source Software, Nov 2023
   * Ishaan Desai, Erik Scheurer, Carina Bringedal, and Benjamin Uekermann
-* [Detection Defenses: An Empty Promise against Adversarial Patch Attacks on Optical Flow](https://arxiv.org/abs/2310.17403)
-  * Accepted to WACV 2024
+* [Detection Defenses: An Empty Promise against Adversarial Patch Attacks on Optical Flow](https://openaccess.thecvf.com/content/WACV2024/html/Scheurer_Detection_Defenses_An_Empty_Promise_Against_Adversarial_Patch_Attacks_on_WACV_2024_paper.html)
+  * Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV) 2024
   * Erik Scheurer, Jenny Schmalfuss, Alexander Lis, Andrés Bruhn
