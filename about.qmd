@@ -23,19 +23,19 @@ Education
 * M.Sc. in Simulation Technology, University of Stuttgart, 2025 (expected)
 * B.Sc. in Simulation Technology, University of Stuttgart, 2022
   * Bachelor Thesis: "An Optimization Approach to Attacking the Horn and Schunk Method"
-  * Supervisor: [Jenny Schmalfuss](https://www.vis.uni-stuttgart.de/en/institute/team/Schmalfuss/)
+  * Supervisor: [Jenny Schmalfuss](https://www.vis.uni-stuttgart.de/en/team/Schmalfuss/)
 
 Work experience
 ======
 * 2024: Research Assistant
   * Forschungszentrum Jülich GmbH
   * Duties included: Research on foundation models for earth observation
-  * Supervisors: Gabriele Cavallaro, Rocco Sedona
+  * Supervisors: [Gabriele Cavallaro](https://www.gabriele-cavallaro.com/), [Rocco Sedona](https://www.fz-juelich.de/profile/sedona_r)
 
 * 2020-2023: Research Assistant
   * Institute for Parallel and Distributed Systems, University of Stuttgart
   * Duties included: Contributing to the development of [preCICE](precice.org) and its ecosystem
-  * Supervisor: [Ishaan Desai](https://de.linkedin.com/in/ishaandesai)
+  * Supervisor: [Ishaan Desai](https://www.ipvs.uni-stuttgart.de/institute/team/Desai/)
 
 * 2019-2020: Student Assistant
   * University of Stuttgart
