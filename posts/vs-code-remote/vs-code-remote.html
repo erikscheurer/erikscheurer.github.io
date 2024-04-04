@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.551">
+<meta name="generator" content="quarto-1.4.553">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -241,13 +241,22 @@ On Linux or Mac
 </details>
 <details>
 <summary>
-On Windows
+On Windows or otherwise manually
 </summary>
 <p>I would recommend to ssh into the remote server and add the public key manually. You can find the public key in <code>~/.ssh/id_ed25519.pub</code>.</p>
 <p>Run the following command in your terminal:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>username<span class="op">&gt;</span>@<span class="op">&lt;</span>hostname<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Here you will have to input your password. Once you are logged in, run the following command to add the public key to the authorized keys file:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"&lt;public key&gt;"</span> <span class="op">&gt;&gt;</span> ~/.ssh/authorized_keys</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<details>
+<summary>
+IP restricted ssh access
+</summary>
+<p>If you have IP restricted ssh access, you will have to add your public IP to the <code>~/.ssh/authorized_keys</code> file. You can find your public IP by searching for “What is my IP” in your browser.</p>
+<p>Since the IP address can change, you can often use IP ranges to allow access. You can find the IP range by doing a <code>whois</code> lookup on your IP address. You can do this by running the following command in your terminal on Linux or Mac:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">whois</span> <span class="op">&lt;</span>your public IP<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>otherwise, you can use a website like <a href="https://www.whois.com/whois/">whois.com</a> to find the IP range. You find the IP range under “route”.</p>
 </details>
 </section>
 <section id="edit-ssh-config" class="level2">
@@ -259,10 +268,10 @@ On Windows
 <li>Choose the one in your home directory.</li>
 <li>Add the following to the file:</li>
 </ol>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Host</span> <span class="op">&lt;</span>hostname<span class="op">&gt;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">HostName</span> <span class="op">&lt;</span>hostname<span class="op">&gt;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">User</span> <span class="op">&lt;</span>username<span class="op">&gt;</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="ex">IdentityFile</span> ~/.ssh/id_ed25519</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Host</span> <span class="op">&lt;</span>hostname<span class="op">&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">HostName</span> <span class="op">&lt;</span>hostname<span class="op">&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">User</span> <span class="op">&lt;</span>username<span class="op">&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="ex">IdentityFile</span> ~/.ssh/id_ed25519</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <details>
 <summary>
 Additional Configuration Options
@@ -270,19 +279,19 @@ Additional Configuration Options
 <ul>
 <li><p>You can add multiple hosts to the SSH config file. This is useful if you have multiple servers you want to connect to.</p></li>
 <li><p>If you have to go through a jump host to connect to the remote server, you can add the following to the SSH config file:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Host</span> <span class="op">&lt;</span>hostname<span class="op">&gt;</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">HostName</span> <span class="op">&lt;</span>hostname<span class="op">&gt;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">User</span> <span class="op">&lt;</span>username<span class="op">&gt;</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="ex">IdentityFile</span> ~/.ssh/id_ed25519</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">ProxyCommand</span> ssh <span class="op">&lt;</span>jump host username<span class="op">&gt;</span>@<span class="op">&lt;</span>jump host hostname<span class="op">&gt;</span> -W %h:%p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Host</span> <span class="op">&lt;</span>hostname<span class="op">&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">HostName</span> <span class="op">&lt;</span>hostname<span class="op">&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">User</span> <span class="op">&lt;</span>username<span class="op">&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="ex">IdentityFile</span> ~/.ssh/id_ed25519</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">ProxyCommand</span> ssh <span class="op">&lt;</span>jump host username<span class="op">&gt;</span>@<span class="op">&lt;</span>jump host hostname<span class="op">&gt;</span> -W %h:%p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p>If you have multiple really similar hosts, you can use <code>%h</code> in the SSH config file. <code>%h</code> will be replaced with the hostname and <code>%p</code> will be replaced with the port number. This is useful if you have multiple servers with the same username and SSH key.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Host</span> <span class="op">&lt;</span>hostname1<span class="op">&gt;</span> <span class="op">&lt;</span>hostname2<span class="op">&gt;</span> <span class="op">&lt;</span>hostname3<span class="op">&gt;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">HostName</span> %h</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Host</span> <span class="op">&lt;</span>hostname1<span class="op">&gt;</span> <span class="op">&lt;</span>hostname2<span class="op">&gt;</span> <span class="op">&lt;</span>hostname3<span class="op">&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">HostName</span> %h</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p>If you want to push to GitHub through SSH, you can forward your SSH agent to the remote server. This will allow you to push to GitHub without having to add a new SSH key to GitHub. You can do this by adding the following to the SSH config file:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>    <span class="ex">ForwardAgent</span> yes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>    <span class="ex">ForwardAgent</span> yes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p>If you want to look at plots or images on the remote server, you can forward the X11 display to your local machine. This will allow you to open plots and images on the remote server and have them show up on your local machine. You can do this by adding the following to the SSH config file:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>    <span class="ex">ForwardX11</span> yes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>    <span class="ex">ForwardX11</span> yes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This works as is on Linux and Mac. On Windows, you will have to install an X11 server.</p></li>
 </ul>
 </details>
