@@ -52,7 +52,7 @@ ssh-copy-id -i ~/.ssh/id_ed25519.pub <username>@<hostname>
 </details>
 
 <details>
-<summary>On Windows</summary>
+<summary>On Windows or otherwise manually</summary>
 
 I would recommend to ssh into the remote server and add the public key manually. You can find the public key in `~/.ssh/id_ed25519.pub`.
 
@@ -67,6 +67,22 @@ Here you will have to input your password. Once you are logged in, run the follo
 ```bash
 echo "<public key>" >> ~/.ssh/authorized_keys
 ```
+</details>
+
+<details>
+<summary>IP restricted ssh access</summary>
+
+If you have IP restricted ssh access, you will have to add your public IP to the `~/.ssh/authorized_keys` file. You can find your public IP by searching for "What is my IP" in your browser.
+
+Since the IP address can change, you can often use IP ranges to allow access. You can find the IP range by doing a `whois` lookup on your IP address. You can do this by running the following command in your terminal on Linux or Mac:
+
+```bash
+whois <your public IP>
+```
+
+otherwise, you can use a website like [whois.com](https://www.whois.com/whois/) to find the IP range. You find the IP range under "route".
+
+
 </details>
 
 ## 4. Edit SSH config
