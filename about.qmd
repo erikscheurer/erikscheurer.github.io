@@ -27,9 +27,9 @@ Education
 
 Work experience
 ======
-* 2024: Research Assistant
+* 2024-today: Research Assistant
   * Forschungszentrum Jülich GmbH
-  * Duties included: Research on foundation models for earth observation
+  * Duties including: Research on foundation models for earth observation for [FAST-EO](https://www.fast-eo.eu/) and [Embed2Scale](https://embed2scale.eu/)
   * Supervisors: [Gabriele Cavallaro](https://www.gabriele-cavallaro.com/), [Rocco Sedona](https://www.fz-juelich.de/profile/sedona_r)
 
 * 2020-2023: Research Assistant
@@ -43,13 +43,21 @@ Work experience
 
 Publications
 ======
-
-* [Blind Image Inpainting with Sparse Directional Filter Dictionaries for Lightweight CNNs](https://link.springer.com/article/10.1007/s10851-022-01119-6)
-  * Journal of Mathematical Imaging and Vision, 2022
-  * Jenny Schmalfuss, Erik Scheurer, Heng Zhao, Nikolaos Karantzas, Andrés Bruhn & Demetrio Labate
-* [Micro Manager: a Python package for adaptive and flexible two-scale coupling](https://joss.theoj.org/papers/10.21105/joss.05842)
-  * Journal of Open Source Software, Nov 2023
-  * Ishaan Desai, Erik Scheurer, Carina Bringedal, and Benjamin Uekermann
+* [Scalable Efficient Compression in Large-Scale Earth Observation](https://meetingorganizer.copernicus.org/EGU25/EGU25-19016.html)
+  * [Poster](posts/EGU25/Poster_Scheurer_Compression.pdf) at EGU General Assembly 2025 workshop: Advancing Foundation Models for Earth and Climate: Benchmarking, Best Practices and AI-Enabled Scientific Understanding
+  *  Erik Scheurer, Jiangtao Wang, Rocco Sedona, Stefano Maurogiovanni, Benedikt Blumenstiel, Johannes Jakubik, Paolo Fraccaro, Thomas Brunschwiler, Stefan Kesselheim, Gabriele Cavallaro
+* [TerraMind: Large-Scale Generative Multimodality for Earth Observation](https://arxiv.org/abs/2504.11171)
+  * arXiv preprint, 2025
+  * Johannes Jakubik, Felix Yang, Benedikt Blumenstiel, Erik Scheurer, Rocco Sedona, Stefano Maurogiovanni, Jente Bosmans, Nikolaos Dionelis, Valerio Marsocci, Niklas Kopp, Rahul Ramachandran, Paolo Fraccaro, Thomas Brunschwiler, Gabriele Cavallaro, Juan Bernabe-Moreno, Nicolas Longépé
+* [Lossy Neural Compression for Geospatial Analytics: A review](https://ieeexplore.ieee.org/document/10934749)
+  * IEEE Geoscience and Remote Sensing Magazine, 2025
+  * C. Gomes, I. Wittmann, D. Robert, J. Jakubik, T. Reichelt, S. Maurogiovanni, R. Vinge, J. Hurst, E. Scheurer, R. Sedona, T. Brunschwiler, S. Kesselheim, M. Batic, P. Stier, J. D. Wegner, G. Cavallaro, E. Pebesma, M. Marszalek, M. A. Belenguer-Plomer, K. Adriko, P. Fraccaro, R. Kienzler, R. Briq, S. Benassou, M. Lazzarini, C. M. Albrecht.
 * [Detection Defenses: An Empty Promise against Adversarial Patch Attacks on Optical Flow](https://openaccess.thecvf.com/content/WACV2024/html/Scheurer_Detection_Defenses_An_Empty_Promise_Against_Adversarial_Patch_Attacks_on_WACV_2024_paper.html)
   * Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV) 2024
   * Erik Scheurer, Jenny Schmalfuss, Alexander Lis, Andrés Bruhn
+* [Micro Manager: a Python package for adaptive and flexible two-scale coupling](https://joss.theoj.org/papers/10.21105/joss.05842)
+  * Journal of Open Source Software, Nov 2023
+  * Ishaan Desai, Erik Scheurer, Carina Bringedal, and Benjamin Uekermann
+* [Blind Image Inpainting with Sparse Directional Filter Dictionaries for Lightweight CNNs](https://link.springer.com/article/10.1007/s10851-022-01119-6)
+  * Journal of Mathematical Imaging and Vision, 2022
+  * Jenny Schmalfuss, Erik Scheurer, Heng Zhao, Nikolaos Karantzas, Andrés Bruhn & Demetrio Labate

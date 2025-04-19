@@ -2,12 +2,14 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/vs-code-remote/vs-code-remote.html",
       "/posts/clifford-neural-layers/clifford-neural-layers-for-pde-modeling.html"
     ]
   },
   {
     "listing": "/posts.html",
     "items": [
+      "/posts/vs-code-remote/vs-code-remote.html",
       "/posts/clifford-neural-layers/clifford-neural-layers-for-pde-modeling.html"
     ]
   }
