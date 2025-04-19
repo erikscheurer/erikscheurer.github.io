@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://erikscheurer.github.io/index.html</loc>
-    <lastmod>2024-04-04T09:27:15.550Z</lastmod>
-  </url>
-  <url>
     <loc>https://erikscheurer.github.io/posts.html</loc>
-    <lastmod>2024-04-04T09:27:15.550Z</lastmod>
+    <lastmod>2025-04-19T11:10:01.641Z</lastmod>
   </url>
   <url>
     <loc>https://erikscheurer.github.io/posts/clifford-neural-layers/clifford-neural-layers-for-pde-modeling.html</loc>
-    <lastmod>2024-04-04T09:27:15.550Z</lastmod>
+    <lastmod>2025-04-19T11:10:01.653Z</lastmod>
   </url>
   <url>
-    <loc>https://erikscheurer.github.io/posts/vs-code-remote/vs-code-remote.html</loc>
-    <lastmod>2024-04-04T09:27:15.558Z</lastmod>
+    <loc>https://erikscheurer.github.io/index.html</loc>
+    <lastmod>2025-04-19T11:10:01.641Z</lastmod>
   </url>
   <url>
     <loc>https://erikscheurer.github.io/about.html</loc>
-    <lastmod>2024-04-04T09:27:15.534Z</lastmod>
+    <lastmod>2025-04-19T11:10:01.616Z</lastmod>
+  </url>
+  <url>
+    <loc>https://erikscheurer.github.io/posts/vs-code-remote/vs-code-remote.html</loc>
+    <lastmod>2025-04-19T11:10:01.663Z</lastmod>
   </url>
 </urlset>
